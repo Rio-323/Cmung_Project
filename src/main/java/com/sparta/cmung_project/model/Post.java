@@ -1,5 +1,7 @@
 package com.sparta.cmung_project.model;
 
+import com.sparta.cmung_project.dto.MemberResponseDto;
+import com.sparta.cmung_project.dto.PostResponseDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -35,5 +37,7 @@ public class Post extends Timestamped {
     @Column(nullable = false)
     private int price;
 
-
+    public PostResponseDto toDto() {
+        return new PostResponseDto(this.id, this.title, this.content, this.type);
+    }
 }

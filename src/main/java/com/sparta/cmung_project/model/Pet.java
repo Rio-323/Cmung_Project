@@ -27,4 +27,11 @@ public class Pet {
     @ManyToOne
     @JoinColumn(name = "memberId", nullable = false)
     private Member member;
+
+    public Pet(String name, int age, String category, Member member) {
+        this.name = name;
+        this.age = age;
+        this.category = category;
+        this.member = member;
+    }
 }
