@@ -41,4 +41,9 @@ public class MypageController {
     public ResponseEntity<?> deletePet(@PathVariable Long petId) {
         return ResponseEntity.ok(mypageService.deletePet(petId));
     }
+
+    @GetMapping("/mypage/pet")
+    public ResponseEntity<?> getPet() throws RuntimeException {
+        return ResponseEntity.ok(mypageService.getPet());
+    }
 }

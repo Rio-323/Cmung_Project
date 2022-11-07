@@ -1,5 +1,7 @@
 package com.sparta.cmung_project.model;
 
+import com.sparta.cmung_project.dto.PetResponseDto;
+import com.sparta.cmung_project.dto.PostResponseDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -39,5 +41,9 @@ public class Pet {
         this.name = name;
         this.age = age;
         this.category = category;
+    }
+
+    public PetResponseDto toDto() {
+        return new PetResponseDto(this.id, this.name, this.age, this.category);
     }
 }
