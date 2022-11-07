@@ -1,5 +1,6 @@
 package com.sparta.cmung_project.model;
 
+import com.sparta.cmung_project.dto.MemberReqDto;
 import com.sparta.cmung_project.dto.MemberResponseDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,11 +15,11 @@ import java.util.List;
 @Entity // DB 테이블 역할을 합니다.
 public class Member {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String email;
+    private String userId;
 
     @Column(nullable = false)
     private String nickname;
@@ -38,4 +39,11 @@ public class Member {
     public MemberResponseDto toDto() {
         return new MemberResponseDto(this.id, this.nickname, this.userImage);
     }
+
+    public Member(MemberReqDto memberReqDto) {
+        this.userId = memberReqDto.getUserId();
+        this.password = memberReqDto.getPassword();
+    }
+
+    public void setEncodePassword(String encodePassword) { this.password = encodePassword; }
 }
