@@ -3,6 +3,7 @@ package com.sparta.cmung_project.controller;
 import com.sparta.cmung_project.dto.PetRequestDto;
 import com.sparta.cmung_project.service.MypageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,5 +30,15 @@ public class MypageController {
     @PostMapping(value = "/mypagge/pet")
     public ResponseEntity<?> createPet(@RequestBody PetRequestDto requestDto) throws RuntimeException {
         return ResponseEntity.ok(mypageService.createPet(requestDto));
+    }
+
+    @PutMapping(value = "/mypagge/pet/{petId}")
+    public ResponseEntity<?> updatePet(@PathVariable Long petId, @RequestBody PetRequestDto requestDto) throws RuntimeException {
+        return ResponseEntity.ok(mypageService.updatePet(petId, requestDto));
+    }
+
+    @DeleteMapping("/mypagge/pet/{petId}")
+    public ResponseEntity<?> deletePet(@PathVariable Long petId) {
+        return ResponseEntity.ok(mypageService.deletePet(petId));
     }
 }

@@ -34,4 +34,10 @@ public class Pet {
         this.category = category;
         this.member = member;
     }
+
+    public void update(String name, int age, String category) {
+        this.name = name;
+        this.age = age;
+        this.category = category;
+    }
 }

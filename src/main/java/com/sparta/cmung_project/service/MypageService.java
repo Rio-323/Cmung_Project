@@ -27,7 +27,7 @@ public class MypageService {
     private final PostRepository postRepository;
     private final PetRepository petRepository;
 
-    // 마이페이지 회원 정보
+    // API 마이페이지 회원 정보
     public MemberResponseDto getUserInfo() throws RuntimeException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Long authId = Long.parseLong(auth.getName());
@@ -40,7 +40,7 @@ public class MypageService {
         return memberDto;
     }
 
-    // 마이페이지 게시글
+    // API 마이페이지 게시글
     // 이미지 반환 미구현
     public List<PostResponseDto> getUserPosts(int typeId) throws RuntimeException {
         List<PostResponseDto> postsDto = postRepository.findAllByType(typeId)
@@ -55,24 +55,48 @@ public class MypageService {
         return postsDto;
     }
 
-    // 마이페이지 이미지 업로드
+    // API 마이페이지 이미지 업로드
 
-    // 마이페이지 반려동물 등록
+    // API 마이페이지 반려동물 등록
     // 장재영 매니저 코드 미활용
     @Transactional
-    public String createPet(PetRequestDto petRequestDto) throws RuntimeException {
+    public Pet createPet(PetRequestDto petRequestDto) throws RuntimeException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Long authId = Long.parseLong(auth.getName());
 
         Member member = memberRepository.findById(authId)
                 .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
 
-        // 요청받은 DTO 로 DB에 저장할 객체 만들기
-        Pet article = new Pet(petRequestDto.getName(), petRequestDto.getAge(),
+        Pet pet = new Pet(petRequestDto.getName(), petRequestDto.getAge(),
                 petRequestDto.getCategory(), member);
 
-        petRepository.save(article);
+        petRepository.save(pet);
 
-        return "success";
+        return pet;
     }
+
+    // API 마이페이지 반려동물 수정
+    @Transactional
+    public Pet updatePet(Long petId, PetRequestDto petRequestDto) throws RuntimeException {
+        Pet pet = petRepository.findById(petId)
+                .orElseThrow(() -> new RuntimeException("해당 반려동물이 존재하지 않습니다."));
+
+        // 객체 수정
+        pet.update(petRequestDto.getName(), petRequestDto.getAge(), petRequestDto.getCategory());
+
+        petRepository.save(pet);
+
+        return pet;
+    }
+
+    // API 마이페이지 반려동물 삭제
+    public Long deletePet(Long petId) {
+        petRepository.findById(petId)
+                .orElseThrow(() -> new RuntimeException("해당 반려동물이 존재하지 않습니다."));
+
+        petRepository.deleteById(petId);
+        return petId;
+    }
+
+    // API 마이페이지 반려동물 조회
 }
