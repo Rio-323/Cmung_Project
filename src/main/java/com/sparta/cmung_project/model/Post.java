@@ -27,6 +27,12 @@ public class Post extends Timestamped {
     @Column(nullable = false)
     private String content;
 
+    @Column(nullable = false)
+    private int price;
+
+    @Column(nullable = false)
+    private String state;
+
     @ManyToOne
     @JoinColumn(name = "memberId", nullable = false)
     private Member member;
@@ -34,8 +40,8 @@ public class Post extends Timestamped {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Image> image;
 
-    @Column(nullable = false)
-    private int price;
+
+
 
     public PostResponseDto toDto() {
         return new PostResponseDto(this.id, this.title, this.content, this.type);

@@ -15,10 +15,18 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Lob
+    private String image;
+
     @Column(nullable = false)
     private int type;
 
     @ManyToOne
     @JoinColumn(name = "postId", nullable = false)
     private Post post;
+
+    public Image(String image, Post post) {
+        this.image = image;
+        this.post = post;
+    }
 }
