@@ -1,6 +1,7 @@
 package com.sparta.cmung_project.jwt.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sparta.cmung_project.exception.ErrorResponse;
 import com.sparta.cmung_project.global.dto.GlobalResDto;
 import com.sparta.cmung_project.jwt.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         if(accessToken != null) {
             if(!jwtUtil.tokenValidation ( accessToken )) {
-                jwtExceptionHandler(response, "AccessToken Expired", HttpStatus.BAD_REQUEST);
+                jwtExceptionHandler(response, "Access 토큰이 만료되었습니다.", HttpStatus.BAD_REQUEST);
                 return;
             }
 
@@ -37,7 +38,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         } else if (refreshToken != null) {
             if(!jwtUtil.tokenValidation ( refreshToken )) {
-                jwtExceptionHandler(response, "RefreshToken Expired", HttpStatus.BAD_REQUEST);
+                jwtExceptionHandler(response, "Refresh 토큰이 만료되었습니다.", HttpStatus.BAD_REQUEST);
                 return;
             }
 
@@ -57,7 +58,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         response.setContentType ( "application/json" );
 
         try {
-            String json = new ObjectMapper ().writeValueAsString ( new GlobalResDto ( msg, status.value () ) );
+            String json = new ObjectMapper ().writeValueAsString ( new ErrorResponse ( status.value (), "T001", msg ) );
             response.getWriter ().write ( json );
         } catch (Exception e) {
             log.error ( e.getMessage () );

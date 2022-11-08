@@ -1,5 +1,6 @@
 package com.sparta.cmung_project.controller;
 
+import com.sparta.cmung_project.dto.IdCheckDto;
 import com.sparta.cmung_project.dto.LoginReqDto;
 import com.sparta.cmung_project.dto.MemberReqDto;
 import com.sparta.cmung_project.global.dto.GlobalResDto;
@@ -23,17 +24,17 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/signup")
-    public GlobalResDto signup(@RequestBody @Valid MemberReqDto memberReqDto) {
+    public GlobalResDto<?> signup(@RequestBody @Valid MemberReqDto memberReqDto) {
         return memberService.signup ( memberReqDto );
     }
 
     @PostMapping("/login")
-    public GlobalResDto login(@RequestBody @Valid LoginReqDto loginReqDto, HttpServletResponse response) {
+    public GlobalResDto<?> login(@RequestBody @Valid LoginReqDto loginReqDto, HttpServletResponse response) {
         return memberService.login ( loginReqDto, response );
     }
 
     @PostMapping("/idCheck")
-    public GlobalResDto<?> idCheck(@RequestBody @Valid IdcheckDto idcheckDto) {
-        return memberService.idCheck ( idcheckDto );
+    public GlobalResDto<?> idCheck(@RequestBody @Valid IdCheckDto idCheckDto) {
+        return memberService.idCheck ( idCheckDto );
     }
 }
