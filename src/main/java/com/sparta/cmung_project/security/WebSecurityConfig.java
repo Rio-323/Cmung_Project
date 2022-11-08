@@ -15,11 +15,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.util.Arrays;
 
@@ -31,6 +29,20 @@ import java.util.Arrays;
 public class WebSecurityConfig {
 
     private final JwtUtil jwtUtil;
+
+    private static final String[] PERMIT_URL_ARRAY = {
+            /* swagger v2 */
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            /* swagger v3 */
+            "/v3/api-docs/**",
+            "/swagger-ui/**"
+    };
 
     @Bean
     public PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder (); }
@@ -67,6 +79,7 @@ public class WebSecurityConfig {
                 .antMatchers ( "/auth/signup/**" ).permitAll ()
                 .antMatchers ( "/auth/idCheck" ).permitAll ()
                 .antMatchers ( "/auth/login/**" ).permitAll ()
+                .antMatchers ( PERMIT_URL_ARRAY ).permitAll ()
                 .anyRequest ().authenticated ()
                 .and ().addFilterBefore ( new JwtAuthFilter ( jwtUtil ), UsernamePasswordAuthenticationFilter.class );
 
