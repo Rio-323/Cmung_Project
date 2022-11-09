@@ -13,7 +13,6 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
 public class AllPostResponseDto {
     private Long id;
     private String nickname;
