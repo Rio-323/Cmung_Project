@@ -4,6 +4,7 @@ import com.sparta.cmung_project.dto.GlobalResDto;
 import com.sparta.cmung_project.dto.PostRequestDto;
 import com.sparta.cmung_project.dto.PostResponseDto;
 import com.sparta.cmung_project.model.Category;
+import com.sparta.cmung_project.security.user.UserDetailsImpl;
 import com.sparta.cmung_project.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

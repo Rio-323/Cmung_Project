@@ -16,7 +16,8 @@ public enum ErrorCode {
     MustHaveTitle(HttpStatus.BAD_REQUEST.value (), "P001", "제목은 반드시 입력해야 합니다."),
     NotFoundPost(HttpStatus.NOT_FOUND.value (), "P002", "게시물이 존재하지 않습니다."),
     NoPermissionToChange(HttpStatus.BAD_REQUEST.value (), "P003", "자신이 작성한 포스트만 수정가능합니다."),
-    NoPermissionToDelete(HttpStatus.BAD_REQUEST.value (), "P004", "자신이 작성한 포스트만 삭제가능합니다.");
+    NoPermissionToDelete(HttpStatus.BAD_REQUEST.value (), "P004", "자신이 작성한 포스트만 삭제가능합니다."),
+    SearchKeywordLengthError(HttpStatus.BAD_REQUEST.value(), "P005", "검색 단어의 길이는 두 글자 이상입니다.");
 
     // 필요하신 에러코드 더 작성해주세요!
 
