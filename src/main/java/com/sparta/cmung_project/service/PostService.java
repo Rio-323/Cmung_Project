@@ -159,7 +159,5 @@ public class PostService {
 
         return getAllPostDtoList;
     }
-
-
-
+    
 }
