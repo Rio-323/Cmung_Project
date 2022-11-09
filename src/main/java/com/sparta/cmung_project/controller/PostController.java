@@ -4,6 +4,7 @@ import com.sparta.cmung_project.dto.GlobalResDto;
 import com.sparta.cmung_project.dto.PostRequestDto;
 import com.sparta.cmung_project.dto.PostResponseDto;
 import com.sparta.cmung_project.model.Category;
+import com.sparta.cmung_project.security.user.UserDetailsImpl;
 import com.sparta.cmung_project.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -53,7 +54,7 @@ public class PostController {
                                                     @AuthenticationPrincipal UserDetailsImpl userDetails){
 
         List<MultipartFile> multipartFiles = imgs.getFiles("postImg");
-        return postService.modifyPost(postId, imgs, postRequestDto ,userDetails.getMember());
+        return postService.modifyPost(postId, multipartFiles, postRequestDto ,userDetails.getMember());
 
     }
 }

@@ -24,5 +24,4 @@ public class PostRequestDto {
     private Category category;
 
     private int price;
-
 }
