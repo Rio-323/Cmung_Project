@@ -15,4 +15,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findAllByOrderByCreatedAt();
 
     List<Post> findAllByType(int typeId);
+
+    List<Post> findAllByTitleContainingOrContentContaining(String searchKeyword, String searchKeyword1);
 }
