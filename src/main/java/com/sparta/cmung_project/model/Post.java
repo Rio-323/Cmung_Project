@@ -1,6 +1,9 @@
 package com.sparta.cmung_project.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sparta.cmung_project.dto.MemberResponseDto;
+import com.sparta.cmung_project.dto.PostRequestDto;
 import com.sparta.cmung_project.dto.PostResponseDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +18,7 @@ import java.util.List;
 @Entity // DB 테이블 역할을 합니다.
 public class Post extends Timestamped {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -27,17 +30,42 @@ public class Post extends Timestamped {
     @Column(nullable = false)
     private String content;
 
-    @ManyToOne
-    @JoinColumn(name = "memberId", nullable = false)
-    private Member member;
-
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    private List<Image> image;
-
     @Column(nullable = false)
     private int price;
 
-    public PostResponseDto toDto() {
-        return new PostResponseDto(this.id, this.title, this.content, this.type);
+    @Column(nullable = false)
+    private String state;
+
+    @ManyToOne
+    @JoinColumn(name = "memberId", nullable = false)
+    @JsonBackReference
+    private Member member;
+
+    @ManyToOne
+    @JoinColumn(name = "categoryId", nullable = false)
+    @JsonBackReference
+    private Category category;
+
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Image> image;
+
+    public Post(PostRequestDto postRequestDto, Category category,Member member){
+        this.title = postRequestDto.getTitle();
+        this.content = postRequestDto.getContent();
+        this.price = postRequestDto.getPrice();
+        this.category = category;
+        this.member = member;
     }
+
+    public void update (PostRequestDto postRequestDto) {
+        this.title = postRequestDto.getTitle();
+        this.content = postRequestDto.getContent();
+        this.category = postRequestDto.getCategory();
+        this.price = postRequestDto.getPrice();
+    }
+//    public PostResponseDto toDto() {
+//        return new PostResponseDto(this.id, this.title, this.content, this.type);
+//    }
 }
