@@ -39,6 +39,8 @@ public class MemberService {
     public GlobalResDto<Object> nicnameCheck(NicknameCheckDto nicknameCheckDto) {
         if(null != isPresentNickname ( nicknameCheckDto.getNickname () )) {
             throw new CustomException ( ErrorCode.DuplicatedNickname );
+        } else if (nicknameCheckDto.getNickname ().contains ( " " )) {
+            throw new CustomException ( ErrorCode.NoContainsBlank );
         }
 
         return GlobalResDto.success ( null, "사용가능한 Nickname 입니다." );
