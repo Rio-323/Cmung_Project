@@ -11,7 +11,6 @@ import com.sparta.cmung_project.model.RefreshToken;
 import com.sparta.cmung_project.repository.MemberRepository;
 import com.sparta.cmung_project.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
