@@ -15,7 +15,7 @@ public class AllPostResponseDto {
     private String title;
     private String content;
 
-    private String category;
+    private Category category;
 
     private String state;
     private int price;
@@ -27,7 +27,7 @@ public class AllPostResponseDto {
         this.id = post.getId();
         this.title = post.getTitle();
         this.content = post.getContent();
-        this.category =post.getCategory().getName();
+        this.category =post.getCategory();
         this.state = post.getState();
         this.price = post.getPrice();
         this.imgs = imgs;

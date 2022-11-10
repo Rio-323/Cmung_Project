@@ -22,39 +22,35 @@ public class PostController {
 
     @PostMapping("/posts")
     public GlobalResDto<PostResponseDto> createPost(MultipartHttpServletRequest imgs,
-                                                    @ModelAttribute PostRequestDto postRequestDto,
-                                                    Category category,
+                                                    @RequestPart PostRequestDto postRequestDto,
                                                     @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        // 이미지 파일 리스트
         List<MultipartFile> multipartFiles = imgs.getFiles("postImg");
 
-        return postService.createPost(postRequestDto,multipartFiles,category,userDetails.getMember());
+        // 게시글 생성 서비스
+        return postService.createPost(postRequestDto, multipartFiles, userDetails.getMember());
     }
-
 
     @GetMapping("/posts")
-    public GlobalResDto<?> allPost(){
-        return postService.allPost();
+        public GlobalResDto<?> allPost(){
+            return postService.allPost();
     }
 
-//    @GetMapping("/posts/{postId}")
-//    public GlobalResDto<OnePostResponseDto> onePost(@PathVariable Long postId,Long imageId,
-//                                                    @AuthenticationPrincipal UserDetailsImpl userDetails){
-//        return postService.onePost(postId, imageId, userDetails.getMember());
-//    }
-
     @DeleteMapping("/posts/{postId}")
-    public GlobalResDto<PostResponseDto> delPost(@PathVariable Long postId,@AuthenticationPrincipal UserDetailsImpl userDetails){
+    public GlobalResDto<PostResponseDto> delPost(@PathVariable Long postId,
+                                                 @AuthenticationPrincipal UserDetailsImpl userDetails){
         return postService.delPost(postId,userDetails.getMember());
     }
 
-    @PatchMapping("/posts/{postId}")
+    @PutMapping("/posts/{postId}")
     public GlobalResDto<PostResponseDto> modifyPost(MultipartHttpServletRequest imgs,
                                                     @PathVariable Long postId,
-                                                    @ModelAttribute PostRequestDto postRequestDto,
+                                                    @RequestPart PostRequestDto postRequestDto,
                                                     @AuthenticationPrincipal UserDetailsImpl userDetails){
-
+        // 이미지 파일 리스트
         List<MultipartFile> multipartFiles = imgs.getFiles("postImg");
-        return postService.modifyPost(postId, multipartFiles, postRequestDto ,userDetails.getMember());
 
+        // 게시글 수정 서비스
+        return postService.modifyPost(postId, multipartFiles, postRequestDto ,userDetails.getMember());
     }
 }

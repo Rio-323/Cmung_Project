@@ -5,9 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sparta.cmung_project.dto.MemberResponseDto;
 import com.sparta.cmung_project.dto.PostRequestDto;
 import com.sparta.cmung_project.dto.PostResponseDto;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -22,9 +20,6 @@ public class Post extends Timestamped {
     private Long id;
 
     @Column(nullable = false)
-    private int type;
-
-    @Column(nullable = false)
     private String title;
 
     @Column(nullable = false)
@@ -36,36 +31,39 @@ public class Post extends Timestamped {
     @Column(nullable = false)
     private String state;
 
-    @ManyToOne
-    @JoinColumn(name = "memberId", nullable = false)
     @JsonBackReference
-    private Member member;
-
     @ManyToOne
     @JoinColumn(name = "categoryId", nullable = false)
-    @JsonBackReference
     private Category category;
 
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "memberId", nullable = false)
+    private Member member;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Image> image;
 
-    public Post(PostRequestDto postRequestDto, Category category,Member member){
+
+    public Post(PostRequestDto postRequestDto, Category category, Member member){
         this.title = postRequestDto.getTitle();
         this.content = postRequestDto.getContent();
         this.price = postRequestDto.getPrice();
-        this.category = category;
         this.member = member;
+        this.state = postRequestDto.getState();
+        this.category = category;
     }
 
-    public void update (PostRequestDto postRequestDto) {
+    public void update (PostRequestDto postRequestDto, Category category) {
         this.title = postRequestDto.getTitle();
         this.content = postRequestDto.getContent();
-        this.category = postRequestDto.getCategory();
+        this.category = category;
+        this.state = postRequestDto.getState();
         this.price = postRequestDto.getPrice();
     }
-//    public PostResponseDto toDto() {
-//        return new PostResponseDto(this.id, this.title, this.content, this.type);
-//    }
+
+    public PostResponseDto toDto() {
+        return new PostResponseDto(this.id, this.title, this.content, this.price, this.category);
+    }
 }

@@ -41,7 +41,7 @@ public class MypageService {
     // API 마이페이지 게시글
     // 이미지 반환 미구현
     public List<PostResponseDto> getUserPosts(int typeId) throws RuntimeException {
-        List<PostResponseDto> postsDto = postRepository.findAllByType(typeId)
+        List<PostResponseDto> postsDto = postRepository.findAll()
                 .stream().map((post) -> {
                     PostResponseDto postDto = post.toDto();
 

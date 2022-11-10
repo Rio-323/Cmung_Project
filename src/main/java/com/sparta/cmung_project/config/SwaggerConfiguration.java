@@ -31,5 +31,4 @@ public class SwaggerConfiguration {
                 .version ( "v0.0.1" )
                 .build ();
     }
-
 }

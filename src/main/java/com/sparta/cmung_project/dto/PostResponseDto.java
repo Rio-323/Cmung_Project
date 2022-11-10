@@ -1,32 +1,35 @@
 package com.sparta.cmung_project.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.sparta.cmung_project.model.Category;
 import com.sparta.cmung_project.model.Post;
-import com.sparta.cmung_project.util.Chrono;
 import lombok.*;
 
 import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class PostResponseDto {
     private Long id;
     private String title;
     private String content;
-
-    private String category;
-
+    private int price;
+    private Category category;
     private String state;
-
     private List<String> imgs;
     private String createdAt;
 
 
     public PostResponseDto(Post post) {
         this.id = post.getId();
+    }
 
+    public PostResponseDto(Long id, String title, String content, int price, Category category) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.price = price;
+        this.category = category;
     }
 }
