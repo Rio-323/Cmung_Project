@@ -1,9 +1,8 @@
 package com.sparta.cmung_project.service;
 
-import com.sparta.cmung_project.dto.AllPostResponseDto;
-import com.sparta.cmung_project.dto.GlobalResDto;
-import com.sparta.cmung_project.dto.PostRequestDto;
-import com.sparta.cmung_project.dto.PostResponseDto;
+import com.sparta.cmung_project.dto.*;
+import com.sparta.cmung_project.exception.CustomException;
+import com.sparta.cmung_project.exception.ErrorCode;
 import com.sparta.cmung_project.model.Category;
 import com.sparta.cmung_project.model.Image;
 import com.sparta.cmung_project.model.Member;
@@ -12,6 +11,7 @@ import com.sparta.cmung_project.repository.CategoryRepository;
 import com.sparta.cmung_project.repository.ImageRepository;
 import com.sparta.cmung_project.repository.PostRepository;
 import com.sparta.cmung_project.s3.S3Service;
+import com.sparta.cmung_project.util.Chrono;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -181,4 +181,30 @@ public class PostService {
         return GlobalResDto.success(postResponseDto,"수정이 완료 되었습니다.");
     }
 
+    public GlobalResDto<?> searchPost(String searchKeyword) {
+
+        if(searchKeyword.length () < 2) {
+            throw new CustomException ( ErrorCode.SearchKeywordLengthError );
+        }
+
+        List<Post> postList = postRepository.findAllByTitleContainingOrContentContaining ( searchKeyword, searchKeyword );
+
+        List<GetAllPostDto> getAllPostDtoList = getAllPost ( postList );
+
+        return GlobalResDto.success ( getAllPostDtoList, null );
+    }
+
+
+    public List<GetAllPostDto> getAllPost(List<Post> postList) {
+        List<GetAllPostDto> getAllPostDtoList = new ArrayList<> ();
+
+        for(Post post : postList) {
+            String time = Chrono.timesAgo ( post.getCreatedAt () );
+            GetAllPostDto getAllPostDto = GetAllPostDto.getAllPostDto ( post, time );
+            getAllPostDtoList.add ( getAllPostDto );
+        }
+
+        return getAllPostDtoList;
+    }
+    
 }

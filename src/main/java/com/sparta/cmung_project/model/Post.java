@@ -36,7 +36,7 @@ public class Post extends Timestamped {
     @JoinColumn(name = "categoryId", nullable = false)
     private Category category;
 
-    @JsonBackReference
+
     @ManyToOne
     @JoinColumn(name = "memberId", nullable = false)
     private Member member;
@@ -45,14 +45,13 @@ public class Post extends Timestamped {
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Image> image;
 
-
-    public Post(PostRequestDto postRequestDto, Category category, Member member){
+    public Post(PostRequestDto postRequestDto, Category category,Member member){
         this.title = postRequestDto.getTitle();
         this.content = postRequestDto.getContent();
         this.price = postRequestDto.getPrice();
+        this.category = category;
         this.member = member;
         this.state = postRequestDto.getState();
-        this.category = category;
     }
 
     public void update (PostRequestDto postRequestDto, Category category) {

@@ -1,9 +1,6 @@
 package com.sparta.cmung_project.service;
 
-import com.sparta.cmung_project.dto.IdCheckDto;
-import com.sparta.cmung_project.dto.LoginReqDto;
-import com.sparta.cmung_project.dto.LoginResDto;
-import com.sparta.cmung_project.dto.MemberReqDto;
+import com.sparta.cmung_project.dto.*;
 import com.sparta.cmung_project.exception.CustomException;
 import com.sparta.cmung_project.exception.ErrorCode;
 import com.sparta.cmung_project.global.dto.GlobalResDto;
@@ -14,7 +11,6 @@ import com.sparta.cmung_project.model.RefreshToken;
 import com.sparta.cmung_project.repository.MemberRepository;
 import com.sparta.cmung_project.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +33,16 @@ public class MemberService {
         }
 
         return GlobalResDto.success ( null, "사용 가능한 아이디 입니다." );
+    }
+
+    public GlobalResDto<Object> nicnameCheck(NicknameCheckDto nicknameCheckDto) {
+        if(null != isPresentNickname ( nicknameCheckDto.getNickname () )) {
+            throw new CustomException ( ErrorCode.DuplicatedNickname );
+        } else if (nicknameCheckDto.getNickname ().contains ( " " )) {
+            throw new CustomException ( ErrorCode.NoContainsBlank );
+        }
+
+        return GlobalResDto.success ( null, "사용가능한 Nickname 입니다." );
     }
 
     @Transactional
@@ -89,6 +95,12 @@ public class MemberService {
     @Transactional(readOnly = true)
     public Member isPresentMember(String userId) {
         Optional<Member> member = memberRepository.findByUserId ( userId );
+        return member.orElse ( null );
+    }
+
+    @Transactional(readOnly = true)
+    public Member isPresentNickname(String nickname) {
+        Optional<Member> member = memberRepository.findByNickname ( nickname );
         return member.orElse ( null );
     }
 

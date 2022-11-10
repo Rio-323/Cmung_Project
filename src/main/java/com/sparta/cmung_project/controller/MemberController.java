@@ -3,6 +3,7 @@ package com.sparta.cmung_project.controller;
 import com.sparta.cmung_project.dto.IdCheckDto;
 import com.sparta.cmung_project.dto.LoginReqDto;
 import com.sparta.cmung_project.dto.MemberReqDto;
+import com.sparta.cmung_project.dto.NicknameCheckDto;
 import com.sparta.cmung_project.global.dto.GlobalResDto;
 import com.sparta.cmung_project.jwt.util.JwtUtil;
 import com.sparta.cmung_project.service.MemberService;
@@ -36,5 +37,10 @@ public class MemberController {
     @PostMapping("/idCheck")
     public GlobalResDto<?> idCheck(@RequestBody @Valid IdCheckDto idCheckDto) {
         return memberService.idCheck ( idCheckDto );
+    }
+
+    @PostMapping("/nicknameCheck")
+    public GlobalResDto<?> nicknameCheck(@RequestBody @Valid NicknameCheckDto nicknameCheckDto) {
+        return memberService.nicnameCheck ( nicknameCheckDto );
     }
 }
