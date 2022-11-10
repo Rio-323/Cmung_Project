@@ -1,6 +1,7 @@
 package com.sparta.cmung_project.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,19 +14,17 @@ import javax.persistence.*;
 @Entity // DB 테이블 역할을 합니다.
 public class Image {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Lob
     private String image;
 
-    @Column(nullable = false)
-    private int type;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "postId")
     @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "postId", nullable = true)
     private Post post;
+
 
     public Image(String image, Post post) {
         this.image = image;

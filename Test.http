@@ -1,0 +1,29 @@
+###중복확인
+POST http://localhost:8080/auth/idCheck
+Content-Type: application/json
+
+{
+  "userId": "asd123"
+}
+
+
+
+###회원가입
+POST http://localhost:8080/auth/signup
+Content-Type: application/json
+
+{
+  "userId": "asd123",
+  "nickname" : "Cmung",
+  "password": "Asd1234!",
+  "passwordCheck": "Asd1234!"
+}
+
+###로그인
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "userId": "asd123",
+  "password": "Asd1234!"
+}

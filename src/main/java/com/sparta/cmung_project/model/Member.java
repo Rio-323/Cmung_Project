@@ -1,9 +1,11 @@
 package com.sparta.cmung_project.model;
 
+import com.sparta.cmung_project.dto.MemberReqDto;
 import com.sparta.cmung_project.dto.MemberResponseDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.util.List;
@@ -14,11 +16,12 @@ import java.util.List;
 @Entity // DB 테이블 역할을 합니다.
 public class Member {
     @Id
+    @Column(name = "memberId")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(nullable = false)
-    private String email;
+    private String userId;
 
     @Column(nullable = false)
     private String nickname;
@@ -26,7 +29,7 @@ public class Member {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String userImage;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
@@ -38,4 +41,16 @@ public class Member {
     public MemberResponseDto toDto() {
         return new MemberResponseDto(this.id, this.nickname, this.userImage);
     }
+
+    public Member(MemberReqDto memberReqDto) {
+        this.userId = memberReqDto.getUserId();
+        this.password = memberReqDto.getPassword();
+        this.nickname = memberReqDto.getNickname ();
+    }
+
+    public boolean validatePassword(PasswordEncoder passwordEncoder, String password) {
+        return !passwordEncoder.matches ( password, this.password );
+    }
+
+    public void setEncodePassword(String encodePassword) { this.password = encodePassword; }
 }
