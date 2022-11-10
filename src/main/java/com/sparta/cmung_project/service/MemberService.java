@@ -1,9 +1,6 @@
 package com.sparta.cmung_project.service;
 
-import com.sparta.cmung_project.dto.IdCheckDto;
-import com.sparta.cmung_project.dto.LoginReqDto;
-import com.sparta.cmung_project.dto.LoginResDto;
-import com.sparta.cmung_project.dto.MemberReqDto;
+import com.sparta.cmung_project.dto.*;
 import com.sparta.cmung_project.exception.CustomException;
 import com.sparta.cmung_project.exception.ErrorCode;
 import com.sparta.cmung_project.global.dto.GlobalResDto;
@@ -37,6 +34,14 @@ public class MemberService {
         }
 
         return GlobalResDto.success ( null, "사용 가능한 아이디 입니다." );
+    }
+
+    public GlobalResDto<Object> nicnameCheck(NicknameCheckDto nicknameCheckDto) {
+        if(null != isPresentNickname ( nicknameCheckDto.getNickname () )) {
+            throw new CustomException ( ErrorCode.DuplicatedNickname );
+        }
+
+        return GlobalResDto.success ( null, "사용가능한 Nickname 입니다." );
     }
 
     @Transactional
@@ -89,6 +94,12 @@ public class MemberService {
     @Transactional(readOnly = true)
     public Member isPresentMember(String userId) {
         Optional<Member> member = memberRepository.findByUserId ( userId );
+        return member.orElse ( null );
+    }
+
+    @Transactional(readOnly = true)
+    public Member isPresentNickname(String nickname) {
+        Optional<Member> member = memberRepository.findByNickname ( nickname );
         return member.orElse ( null );
     }
 
