@@ -23,6 +23,10 @@ public class PostResponseDto {
 
     public PostResponseDto(Post post) {
         this.id = post.getId();
+        this.title = post.getTitle();
+        this.content = post.getContent();
+        this.category = post.getCategory();
+        this.price = post.getPrice();
     }
 
     public PostResponseDto(Long id, String title, String content, int price, Category category) {
