@@ -35,7 +35,7 @@ public class Post extends Timestamped {
     @JoinColumn(name = "categoryId", nullable = false)
     private Category category;
 
-
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "memberId", nullable = false)
     private Member member;
