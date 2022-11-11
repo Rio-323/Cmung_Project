@@ -37,6 +37,8 @@ replay_pid*
 /.idea/
 
 src/main/resources/*
+src/main/resources/application-aws.properties
+src/main/resources/application.properties
 
 .gradle
 .gradle/
