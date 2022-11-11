@@ -6,6 +6,14 @@ Content-Type: application/json
   "userId": "asd123"
 }
 
+###중복확인
+POST http://localhost:8080/auth/nicknameCheck
+Content-Type: application/json
+
+{
+  "nickname": "Cmung"
+}
+
 
 
 ###회원가입
@@ -14,7 +22,7 @@ Content-Type: application/json
 
 {
   "userId": "asd123",
-  "nickname" : "Cmung",
+  "nickname" : "cmung",
   "password": "Asd1234!",
   "passwordCheck": "Asd1234!"
 }

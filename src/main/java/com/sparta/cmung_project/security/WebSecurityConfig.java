@@ -78,6 +78,7 @@ public class WebSecurityConfig {
         http.authorizeRequests ()
                 .antMatchers ( "/auth/signup/**" ).permitAll ()
                 .antMatchers ( "/auth/idCheck" ).permitAll ()
+                .antMatchers ( "/auth/nicknameCheck" ).permitAll ()
                 .antMatchers ( "/auth/login/**" ).permitAll ()
                 .antMatchers ( PERMIT_URL_ARRAY ).permitAll ()
                 .anyRequest ().authenticated ()
