@@ -2,7 +2,6 @@ package com.sparta.cmung_project.jwt.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.cmung_project.exception.ErrorResponse;
-import com.sparta.cmung_project.global.dto.GlobalResDto;
 import com.sparta.cmung_project.jwt.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +33,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 return;
             }
 
-            setAuthentication ( jwtUtil.getUserIdFromToken ( accessToken ) );
+            setAuthentication ( jwtUtil.getEmailFromToken ( accessToken ) );
 
         } else if (refreshToken != null) {
             if(!jwtUtil.tokenValidation ( refreshToken )) {
@@ -42,14 +41,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 return;
             }
 
-            setAuthentication ( jwtUtil.getUserIdFromToken ( refreshToken ) );
+            setAuthentication ( jwtUtil.getEmailFromToken ( refreshToken ) );
         }
 
         filterChain.doFilter ( request, response );
     }
 
-    public void setAuthentication(String userId) {
-        Authentication authentication = jwtUtil.createAuthentication ( userId );
+    public void setAuthentication(String email) {
+        Authentication authentication = jwtUtil.createAuthentication ( email );
         SecurityContextHolder.getContext ().setAuthentication ( authentication );
     }
 

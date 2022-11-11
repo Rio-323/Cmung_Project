@@ -28,8 +28,8 @@ public class MemberService {
     private final RefreshTokenRepository refreshTokenRepository;
 
     public GlobalResDto<Object> idCheck(IdCheckDto idCheckDto) {
-        if(null != isPresentMember ( idCheckDto.getUserId () )) {
-            throw new CustomException ( ErrorCode.DuplicatedUserId );
+        if(null != isPresentMember ( idCheckDto.getEmail () )) {
+            throw new CustomException ( ErrorCode.DuplicatedEmail );
         }
 
         return GlobalResDto.success ( null, "사용 가능한 아이디 입니다." );
@@ -47,9 +47,9 @@ public class MemberService {
 
     @Transactional
     public GlobalResDto<Object> signup(MemberReqDto memberReqDto) {
-        // userId 중복검사
-        if(null != isPresentMember ( memberReqDto.getUserId () )) {
-            throw new CustomException ( ErrorCode.DuplicatedUserId );
+        // email 중복검사
+        if(null != isPresentMember ( memberReqDto.getEmail () )) {
+            throw new CustomException ( ErrorCode.DuplicatedEmail );
         }
 
         if(!memberReqDto.getPassword ().equals ( memberReqDto.getPasswordCheck () )) {
@@ -67,7 +67,7 @@ public class MemberService {
     @Transactional
     public GlobalResDto<?> login(LoginReqDto loginReqDto, HttpServletResponse response) {
 
-        Member member = memberRepository.findByUserId ( loginReqDto.getUserId () ).orElseThrow (
+        Member member = memberRepository.findByEmail ( loginReqDto.getEmail () ).orElseThrow (
                 () -> new CustomException ( ErrorCode.NotFoundMember )
         );
 
@@ -75,14 +75,14 @@ public class MemberService {
             throw new CustomException ( ErrorCode.WrongPassword );
         }
 
-        TokenDto tokenDto = jwtUtil.createAllToken ( loginReqDto.getUserId () );
+        TokenDto tokenDto = jwtUtil.createAllToken ( loginReqDto.getEmail () );
 
-        Optional<RefreshToken> refreshToken = refreshTokenRepository.findByMemberUserId ( loginReqDto.getUserId () );
+        Optional<RefreshToken> refreshToken = refreshTokenRepository.findByMemberEmail ( loginReqDto.getEmail () );
 
         if(refreshToken.isPresent ()) {
             refreshTokenRepository.save ( refreshToken.get ().updateToken ( tokenDto.getRefreshToken () ) );
         } else {
-            RefreshToken newToken = new RefreshToken ( tokenDto.getRefreshToken (), loginReqDto.getUserId () );
+            RefreshToken newToken = new RefreshToken ( tokenDto.getRefreshToken (), loginReqDto.getEmail () );
             refreshTokenRepository.save ( newToken );
         }
 
@@ -93,8 +93,8 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public Member isPresentMember(String userId) {
-        Optional<Member> member = memberRepository.findByUserId ( userId );
+    public Member isPresentMember(String email) {
+        Optional<Member> member = memberRepository.findByEmail ( email );
         return member.orElse ( null );
     }
 

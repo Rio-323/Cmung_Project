@@ -21,7 +21,7 @@ public class Member {
     private Long id;
 
     @Column(nullable = false)
-    private String userId;
+    private String email;
 
     @Column(nullable = false)
     private String nickname;
@@ -43,7 +43,7 @@ public class Member {
     }
 
     public Member(MemberReqDto memberReqDto) {
-        this.userId = memberReqDto.getUserId();
+        this.email = memberReqDto.getEmail ();
         this.password = memberReqDto.getPassword();
         this.nickname = memberReqDto.getNickname ();
     }
