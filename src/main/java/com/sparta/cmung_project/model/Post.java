@@ -8,6 +8,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Setter // set 함수를 일괄적으로 만들어줍니다.
 @Getter // get 함수를 일괄적으로 만들어줍니다.
@@ -44,7 +45,7 @@ public class Post extends Timestamped {
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Image> image;
 
-    public Post(PostRequestDto postRequestDto, Category category,Member member){
+    public Post(PostRequestDto postRequestDto, Category category, Member member) {
         this.title = postRequestDto.getTitle();
         this.content = postRequestDto.getContent();
         this.price = postRequestDto.getPrice();
@@ -62,6 +63,18 @@ public class Post extends Timestamped {
     }
 
     public PostResponseDto toDto() {
-        return new PostResponseDto(this.id, this.title, this.content, this.price, this.category);
+        // 이미지 객체 리스트를 문자열 리스트로 변환
+        List<String> imageList = this.image
+                .stream().map((imageObj) -> {
+                    // 포스트 객체를 DTO로 만든다.
+                    String imageStr = imageObj.getImage();
+
+                    // DTO 반환
+                    return imageStr;
+                })
+                .collect(Collectors.toList());
+
+        // DTO 반환
+        return new PostResponseDto(this.id, this.title, this.content, this.price, this.category.getName(), imageList);
     }
 }

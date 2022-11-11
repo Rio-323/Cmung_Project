@@ -27,7 +27,7 @@ public class AllPostResponseDto {
     private List<String> imgs;
     private String createdAt;
 
-    public AllPostResponseDto(Post post,List<String> imgs) {
+    public AllPostResponseDto(Post post, List<String> imgs) {
         this.id = post.getId();
         this.nickname = post.getMember ().getNickname ();
         this.title = post.getTitle();

@@ -22,27 +22,28 @@ public class Pet {
     @Column(nullable = false)
     private int age;
 
-    @Column(nullable = false)
-    private String category;
+    @ManyToOne
+    @JoinColumn(name = "categoryId", nullable = false)
+    private Category category;
 
     @ManyToOne
     @JoinColumn(name = "memberId", nullable = false)
     private Member member;
 
-    public Pet(String name, int age, String category, Member member) {
+    public Pet(String name, int age, Category category, Member member) {
         this.name = name;
         this.age = age;
         this.category = category;
         this.member = member;
     }
 
-    public void update(String name, int age, String category) {
+    public void update(String name, int age, Category category) {
         this.name = name;
         this.age = age;
         this.category = category;
     }
 
     public PetResponseDto toDto() {
-        return new PetResponseDto(this.id, this.name, this.age, this.category);
+        return new PetResponseDto(this.id, this.name, this.age, this.category.getName());
     }
 }
