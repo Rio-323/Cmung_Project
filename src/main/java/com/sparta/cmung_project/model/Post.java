@@ -2,7 +2,6 @@ package com.sparta.cmung_project.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.sparta.cmung_project.dto.MemberResponseDto;
 import com.sparta.cmung_project.dto.PostRequestDto;
 import com.sparta.cmung_project.dto.PostResponseDto;
 import lombok.*;
