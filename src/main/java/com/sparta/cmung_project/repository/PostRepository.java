@@ -9,13 +9,6 @@ import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
     Optional<Post> findById(Long id);
-
-    Post findPostByPostIdAndMember(Long postId, Member member);
-
-    List<Post> findAllByOrderByCreatedAt();
-
-    List<Post> findAllByType(int typeId);
-
     List<Post> findAllByTitleContainingOrContentContaining(String searchKeyword, String searchKeyword1);
     Post findByIdAndMember(Long id, Member member);
     List<Post> findAllByOrderByCreatedAtDesc();

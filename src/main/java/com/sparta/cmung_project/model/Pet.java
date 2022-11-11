@@ -1,7 +1,6 @@
 package com.sparta.cmung_project.model;
 
 import com.sparta.cmung_project.dto.PetResponseDto;
-import com.sparta.cmung_project.dto.PostResponseDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
