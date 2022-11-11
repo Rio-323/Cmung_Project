@@ -20,7 +20,6 @@ import javax.validation.Valid;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class MemberController {
-
     private final JwtUtil jwtUtil;
     private final MemberService memberService;
 

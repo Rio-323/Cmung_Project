@@ -1,8 +1,6 @@
 package com.sparta.cmung_project.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.sparta.cmung_project.dto.PostRequestDto;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

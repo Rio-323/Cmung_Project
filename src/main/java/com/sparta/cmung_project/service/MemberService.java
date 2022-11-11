@@ -1,5 +1,6 @@
 package com.sparta.cmung_project.service;
 
+
 import com.sparta.cmung_project.dto.*;
 import com.sparta.cmung_project.exception.CustomException;
 import com.sparta.cmung_project.exception.ErrorCode;
@@ -21,7 +22,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class MemberService {
-
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
