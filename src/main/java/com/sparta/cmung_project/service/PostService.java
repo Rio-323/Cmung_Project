@@ -35,7 +35,9 @@ public class PostService {
     // 게시글 생성
     @Transactional
     public GlobalResDto<PostResponseDto> createPost(PostRequestDto postRequestDto, List<MultipartFile> file, Member member){
-        log.info("createPost");
+        log.info("createPost() 호출");
+        log.info(String.valueOf("파일 개수 : " + file.size()));
+
         List<Image> imgs = new ArrayList<>();
 
         // 카테고리 검색
@@ -60,6 +62,7 @@ public class PostService {
         for (MultipartFile multipartFile : file) {
             // 이미지 저장
             Image img = imgRepository.save(new Image(s3Service.uploadFile(multipartFile), post));
+            log.info("이미지 저장 : " + img.getImage());
             // 이미지 리스트에 추가
             imgs.add(img);
         }
@@ -97,8 +100,8 @@ public class PostService {
             List<String> imgList = new ArrayList<>();
 
             // 이미지 리스트에 이미지 추가
-            for(Image i : p.getImage()){
-                imgList.add(i.getImage());
+            for(Image img : p.getImage()){
+                imgList.add(img.getImage());
             }
 
             // DTO 리스트에 DTO 추가
@@ -114,6 +117,7 @@ public class PostService {
     @Transactional
     public GlobalResDto<PostResponseDto> delPost(Long postId, Member member){
         // 게시글 가져오기
+        // postId와 member를 함께 사용한다.
         Post post = postRepository.findByIdAndMember(postId, member);
 
         // 가져온 게시글 존재 유무 검사

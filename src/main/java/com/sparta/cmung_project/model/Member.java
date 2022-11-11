@@ -1,5 +1,6 @@
 package com.sparta.cmung_project.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sparta.cmung_project.dto.MemberReqDto;
 import com.sparta.cmung_project.dto.MemberResponseDto;
 import lombok.Getter;
@@ -32,9 +33,11 @@ public class Member {
     @Column(nullable = true)
     private String userImage;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Post> post;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Pet> pet;
 

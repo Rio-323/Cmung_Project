@@ -38,7 +38,7 @@ public class PostController {
     @DeleteMapping("/posts/{postId}")
     public GlobalResDto<PostResponseDto> delPost(@PathVariable Long postId,
                                                  @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return postService.delPost(postId,userDetails.getMember());
+        return postService.delPost(postId, userDetails.getMember());
     }
 
     @PutMapping("/posts/{postId}")
