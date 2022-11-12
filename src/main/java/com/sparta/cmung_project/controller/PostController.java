@@ -52,4 +52,9 @@ public class PostController {
         // 게시글 수정 서비스
         return postService.modifyPost(postId, multipartFiles, postRequestDto ,userDetails.getMember());
     }
+
+    @GetMapping("/posts/{postId}")
+    public GlobalResDto<PostResponseDto> getOne(@PathVariable Long postId){
+        return postService.getOne(postId);
+    }
 }

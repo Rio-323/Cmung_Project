@@ -210,5 +210,14 @@ public class PostService {
 
         return getAllPostDtoList;
     }
-    
+
+    //게시물 상세조회
+    @Transactional(readOnly = true)
+    public GlobalResDto<PostResponseDto> getOne(Long id){
+        Post post = postRepository.findById(id).orElseThrow(
+                ()-> new CustomException(ErrorCode.NotFoundPost)
+        );
+        PostResponseDto postResponseDto = new PostResponseDto(post);
+        return GlobalResDto.success(postResponseDto, null);
+    }
 }
