@@ -54,7 +54,7 @@ public class PostController {
     }
 
     @GetMapping("/posts/{postId}")
-    public GlobalResDto<PostResponseDto> getOne(@PathVariable Long id){
-        return postService.getOne(id);
+    public GlobalResDto<PostResponseDto> getOne(@PathVariable Long postId){
+        return postService.getOne(postId);
     }
 }
