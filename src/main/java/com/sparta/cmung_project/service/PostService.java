@@ -36,6 +36,7 @@ public class PostService {
     @Transactional
     public GlobalResDto<PostResponseDto> createPost(PostRequestDto postRequestDto, List<MultipartFile> file, Member member){
         log.info("createPost");
+        log.info("post" + postRequestDto);
         List<Image> imgs = new ArrayList<>();
 
         // 카테고리 검색
@@ -44,13 +45,8 @@ public class PostService {
         // 포스트 생성
         Post post = null;
         if(categoryOpt.isPresent()) {
-            log.info("카테고리 존재");
-            log.info("Boolean : " + String.valueOf(categoryOpt.isPresent()));
-            log.info("get() : " + String.valueOf(categoryOpt.get()));
-            log.info("Category Name : " + String.valueOf(categoryOpt.get().getName()));
             post = new Post(postRequestDto, categoryOpt.get(), member);
         } else {
-            log.info("카테고리 생성");
             Category category = new Category(postRequestDto.getCategory());
             categoryRepository.save(category);
             post = new Post(postRequestDto, category, member);
@@ -106,7 +102,7 @@ public class PostService {
         }
 
         // DTO 반환
-        return GlobalResDto.success(posts,"조회를 성공하였습니다.");
+        return GlobalResDto.success(allPostResponseDtos,"조회를 성공하였습니다.");
     }
 
     
@@ -157,10 +153,13 @@ public class PostService {
         }
 
         // 카테고리 검색
-        Optional<Category> categoryOpt = categoryRepository.findByName(postRequestDto.getCategory());
+//        Optional<Category> categoryOpt = categoryRepository.findByName();
 
+        Category category = new Category(postRequestDto.getCategory());
+        categoryRepository.save(category);
+//        String category
         // 게시글 수정
-        post.update(postRequestDto, categoryOpt.get());
+        post.update(postRequestDto,category);
 
         // 이미지 리스트 작성
         List<String> imgList = new ArrayList<>();

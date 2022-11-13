@@ -31,12 +31,15 @@ public class Post extends Timestamped {
     @Column(nullable = false)
     private String state;
 
+
+
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "categoryId", nullable = false)
     private Category category;
 
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "memberId", nullable = false)
     private Member member;
@@ -57,9 +60,9 @@ public class Post extends Timestamped {
     public void update (PostRequestDto postRequestDto, Category category) {
         this.title = postRequestDto.getTitle();
         this.content = postRequestDto.getContent();
-        this.category = category;
         this.state = postRequestDto.getState();
         this.price = postRequestDto.getPrice();
+        this.category=category;
     }
 
     public PostResponseDto toDto() {

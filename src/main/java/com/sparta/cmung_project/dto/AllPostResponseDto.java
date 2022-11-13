@@ -19,7 +19,7 @@ public class AllPostResponseDto {
     private String title;
     private String content;
 
-    private Category category;
+    private String category;
 
     private String state;
     private int price;
@@ -32,7 +32,7 @@ public class AllPostResponseDto {
         this.nickname = post.getMember ().getNickname ();
         this.title = post.getTitle();
         this.content = post.getContent();
-        this.category =post.getCategory();
+        this.category =post.getCategory().getName();
         this.state = post.getState();
         this.price = post.getPrice();
         this.imgs = imgs;

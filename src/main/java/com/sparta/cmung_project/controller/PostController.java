@@ -3,7 +3,7 @@ package com.sparta.cmung_project.controller;
 import com.sparta.cmung_project.dto.GlobalResDto;
 import com.sparta.cmung_project.dto.PostRequestDto;
 import com.sparta.cmung_project.dto.PostResponseDto;
-import com.sparta.cmung_project.model.Category;
+
 import com.sparta.cmung_project.security.user.UserDetailsImpl;
 import com.sparta.cmung_project.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,7 +24,7 @@ public class PostController {
 
     @PostMapping("/posts")
     public GlobalResDto<PostResponseDto> createPost(MultipartHttpServletRequest imgs,
-                                                    @RequestPart PostRequestDto postRequestDto,
+                                                    @RequestPart @Valid PostRequestDto postRequestDto,
                                                     @AuthenticationPrincipal UserDetailsImpl userDetails) {
         // 이미지 파일 리스트
         List<MultipartFile> multipartFiles = imgs.getFiles("postImg");
@@ -45,7 +47,7 @@ public class PostController {
     @PutMapping("/posts/{postId}")
     public GlobalResDto<PostResponseDto> modifyPost(MultipartHttpServletRequest imgs,
                                                     @PathVariable Long postId,
-                                                    @RequestPart PostRequestDto postRequestDto,
+                                                    @RequestPart @Valid PostRequestDto postRequestDto,
                                                     @AuthenticationPrincipal UserDetailsImpl userDetails){
         // 이미지 파일 리스트
         List<MultipartFile> multipartFiles = imgs.getFiles("postImg");

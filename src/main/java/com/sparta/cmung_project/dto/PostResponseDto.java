@@ -25,7 +25,6 @@ public class PostResponseDto {
         this.id = post.getId();
         this.title = post.getTitle();
         this.content = post.getContent();
-        this.category = post.getCategory();
         this.price = post.getPrice();
     }
 
