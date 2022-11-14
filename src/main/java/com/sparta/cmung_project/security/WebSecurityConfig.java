@@ -20,6 +20,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -27,7 +28,6 @@ import java.util.Arrays;
 @ConditionalOnDefaultWebSecurity
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 public class WebSecurityConfig {
-
     private final JwtUtil jwtUtil;
 
     private static final String[] PERMIT_URL_ARRAY = {
@@ -55,8 +55,9 @@ public class WebSecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOriginPatterns( Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("*", "POST", "GET", "DELETE", "PUT", "PATCH"));  //프론트에서 보내는 CRUD 허용
+        configuration.setAllowedOriginPatterns( Arrays.asList("*") );
+        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
+        configuration.setAllowedMethods(Arrays.asList("*", "POST", "GET", "DELETE", "PUT", "PATCH", "OPTIONS"));  // 프론트에서 보내는 CRUD 허용
         configuration.setAllowedHeaders(Arrays.asList("*", "Access_Token")); // 프론트에서 보내는 모든 해더 허용
         configuration.setAllowCredentials(true);
         configuration.addExposedHeader ( "*" );
@@ -69,9 +70,9 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
-
-        http.cors ();
+        // CORS
+        http.cors();
+        // CSRF
         http.csrf ().disable ();
         http.sessionManagement ().sessionCreationPolicy ( SessionCreationPolicy.STATELESS );
 

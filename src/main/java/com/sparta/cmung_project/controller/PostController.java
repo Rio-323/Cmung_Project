@@ -20,12 +20,9 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping("/posts")
-    public GlobalResDto<PostResponseDto> createPost(MultipartHttpServletRequest imgs,
+    public GlobalResDto<PostResponseDto> createPost(@RequestPart(value="postImg", required=false) List<MultipartFile> multipartFiles,
                                                     @RequestPart PostRequestDto postRequestDto,
                                                     @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        // 이미지 파일 리스트
-        List<MultipartFile> multipartFiles = imgs.getFiles("postImg");
-
         // 게시글 생성 서비스
         return postService.createPost(postRequestDto, multipartFiles, userDetails.getMember());
     }
@@ -42,13 +39,10 @@ public class PostController {
     }
 
     @PutMapping("/posts/{postId}")
-    public GlobalResDto<PostResponseDto> modifyPost(MultipartHttpServletRequest imgs,
+    public GlobalResDto<PostResponseDto> modifyPost(@RequestPart(value="postImg", required=false) List<MultipartFile> multipartFiles,
                                                     @PathVariable Long postId,
                                                     @RequestPart PostRequestDto postRequestDto,
                                                     @AuthenticationPrincipal UserDetailsImpl userDetails){
-        // 이미지 파일 리스트
-        List<MultipartFile> multipartFiles = imgs.getFiles("postImg");
-
         // 게시글 수정 서비스
         return postService.modifyPost(postId, multipartFiles, postRequestDto ,userDetails.getMember());
     }
