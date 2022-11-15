@@ -53,9 +53,10 @@ public class MemberController {
         return memberService.nicnameCheck ( nicknameCheckDto );
     }
 
-
     @GetMapping("/member/kakao/callback")
     public GlobalResDto<?> kakaoLogin(@RequestParam String code, HttpServletResponse response) throws JsonProcessingException {
+        log.info("카카오 로그인");
+
         // authorizedCode: 카카오 서버로부터 받은 인가 코드
         return memberService.kakaoLogin(code, response);
     }
