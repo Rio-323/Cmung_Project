@@ -1,14 +1,19 @@
 package com.sparta.cmung_project.webSocket.controller;
 
+import com.sparta.cmung_project.dto.GlobalResDto;
+import com.sparta.cmung_project.security.user.UserDetailsImpl;
+import com.sparta.cmung_project.webSocket.domain.Chat;
+import com.sparta.cmung_project.webSocket.domain.Room;
+import com.sparta.cmung_project.webSocket.service.ChatService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import webSocket.chat.domain.Chat;
-import webSocket.chat.domain.Room;
-import webSocket.chat.service.ChatService;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 import java.util.List;
 
@@ -33,12 +38,11 @@ public class RoomController {
 
     /**
      * 채팅방 등록
-     * @param form
      */
-    @PostMapping("/room")
-    public String createRoom(RoomForm form) {
-        chatService.createRoom(form.getName());
-        return "redirect:/roomList";
+    @PostMapping("/room/{postId}")
+    public GlobalResDto<Room> createRoom(@PathVariable Long postId,
+                                   @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return chatService.createRoom(postId, userDetails);
     }
 
     /**

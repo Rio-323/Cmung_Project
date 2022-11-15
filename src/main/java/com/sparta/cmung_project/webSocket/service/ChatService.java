@@ -1,5 +1,6 @@
 package com.sparta.cmung_project.webSocket.service;
-
+import com.sparta.cmung_project.dto.GlobalResDto;
+import com.sparta.cmung_project.security.user.UserDetailsImpl;
 import com.sparta.cmung_project.webSocket.domain.Chat;
 import com.sparta.cmung_project.webSocket.domain.Room;
 import com.sparta.cmung_project.webSocket.repository.ChatRepository;
@@ -33,10 +34,11 @@ public class ChatService {
 
     /**
      * 채팅방 만들기
-     * @param name 방 이름
      */
-    public Room createRoom(String name) {
-        return roomRepository.save(Room.createRoom(name));
+    public GlobalResDto<Room> createRoom(Long postId, UserDetailsImpl userDetails) {
+        Room room = new Room(postId,userDetails.getMember().getId());
+        roomRepository.save(room);
+        return GlobalResDto.success(room,"채팅방에 입장 하셨습니다.");
     }
 
     /////////////////

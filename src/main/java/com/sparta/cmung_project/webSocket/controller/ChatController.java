@@ -1,13 +1,14 @@
 package com.sparta.cmung_project.webSocket.controller;
 
+import com.sparta.cmung_project.webSocket.domain.Chat;
+import com.sparta.cmung_project.webSocket.dto.ChatMessage;
+import com.sparta.cmung_project.webSocket.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
-import webSocket.chat.domain.Chat;
-import webSocket.chat.dto.ChatMessage;
-import webSocket.chat.service.ChatService;
+
 
 
 @Controller
