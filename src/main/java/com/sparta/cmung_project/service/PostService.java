@@ -35,7 +35,8 @@ public class PostService {
     // 게시글 생성
     @Transactional
     public GlobalResDto<PostResponseDto> createPost(PostRequestDto postRequestDto, List<MultipartFile> file, Member member){
-        log.info("createPost");
+        log.info("createPost() 호출");
+
         List<Image> imgs = new ArrayList<>();
 
         // 카테고리 검색
@@ -55,14 +56,23 @@ public class PostService {
             categoryRepository.save(category);
             post = new Post(postRequestDto, category, member);
         }
-
-        // 이미지 파일 처리
-        for (MultipartFile multipartFile : file) {
-            // 이미지 저장
-            Image img = imgRepository.save(new Image(s3Service.uploadFile(multipartFile), post));
-            // 이미지 리스트에 추가
-            imgs.add(img);
+        
+        // MultipartFile Null 체크
+        if(file != null) {
+            log.info("파일이 Null이 아닙니다.");
+            // 이미지 파일 처리
+            for (MultipartFile multipartFile : file) {
+                // 이미지 저장
+                Image img = imgRepository.save(new Image(s3Service.uploadFile(multipartFile), post));
+                log.info("이미지 저장 : " + img.getImage());
+                // 이미지 리스트에 추가
+                imgs.add(img);
+            }
+        } else {
+            log.info("파일이 Null 입니다.");
+            log.info("이미지 저장 과정을 생략합니다.");
         }
+
         // 포스트 DB 저장
         postRepository.save(post);
 
@@ -97,8 +107,8 @@ public class PostService {
             List<String> imgList = new ArrayList<>();
 
             // 이미지 리스트에 이미지 추가
-            for(Image i : p.getImage()){
-                imgList.add(i.getImage());
+            for(Image img : p.getImage()){
+                imgList.add(img.getImage());
             }
 
             // DTO 리스트에 DTO 추가
@@ -106,7 +116,7 @@ public class PostService {
         }
 
         // DTO 반환
-        return GlobalResDto.success(posts,"조회를 성공하였습니다.");
+        return GlobalResDto.success(allPostResponseDtos,"조회를 성공하였습니다.");
     }
 
     
@@ -114,6 +124,7 @@ public class PostService {
     @Transactional
     public GlobalResDto<PostResponseDto> delPost(Long postId, Member member){
         // 게시글 가져오기
+        // postId와 member를 함께 사용한다.
         Post post = postRepository.findByIdAndMember(postId, member);
 
         // 가져온 게시글 존재 유무 검사
@@ -130,6 +141,8 @@ public class PostService {
     // 게시글 수정
     @Transactional
     public GlobalResDto<PostResponseDto> modifyPost(Long postId, List<MultipartFile> file, PostRequestDto postRequestDto, Member member){
+        log.info("modifyPost() 호출");
+
         // 게시글 가져오기
         Post post = postRepository.findByIdAndMember(postId, member);
 
@@ -147,13 +160,20 @@ public class PostService {
         // 이미지 리스트 작성
         List<Image> imgs = new ArrayList<>();
 
-        // S3에 이미지 저장
-        for (MultipartFile multipartFile : file) {
+        // MultipartFile Null 체크
+        if(file != null) {
+            log.info("파일이 Null이 아닙니다.");
             // S3에 이미지 저장
-            // 이미지 생성
-            Image img = imgRepository.save(new Image(s3Service.uploadFile(multipartFile), post));
-            // 이미지 리스트에 이미지 추가
-            imgs.add(img);
+            for (MultipartFile multipartFile : file) {
+                // S3에 이미지 저장
+                // 이미지 생성
+                Image img = imgRepository.save(new Image(s3Service.uploadFile(multipartFile), post));
+                // 이미지 리스트에 이미지 추가
+                imgs.add(img);
+            }
+        } else {
+            log.info("파일이 Null 입니다.");
+            log.info("이미지 저장 과정을 생략합니다.");
         }
 
         // 카테고리 검색
@@ -181,6 +201,7 @@ public class PostService {
         return GlobalResDto.success(postResponseDto,"수정이 완료 되었습니다.");
     }
 
+    // 게시글 검색
     public GlobalResDto<?> searchPost(String searchKeyword) {
 
         if(searchKeyword.length () < 2) {
@@ -194,17 +215,35 @@ public class PostService {
         return GlobalResDto.success ( getAllPostDtoList, null );
     }
 
-
+    // 게시글 리스트를 DTO로 만든다.
     public List<GetAllPostDto> getAllPost(List<Post> postList) {
         List<GetAllPostDto> getAllPostDtoList = new ArrayList<> ();
 
         for(Post post : postList) {
-            String time = Chrono.timesAgo ( post.getCreatedAt () );
+            String time = Chrono.timesAgo ( post.getCreatedAt() );
             GetAllPostDto getAllPostDto = GetAllPostDto.getAllPostDto ( post, time );
             getAllPostDtoList.add ( getAllPostDto );
         }
 
         return getAllPostDtoList;
     }
-    
+
+    // 게시글 상세 조회
+    @Transactional(readOnly = true)
+    public GlobalResDto<PostResponseDto> getOne(Long id){
+        Post post = postRepository.findById(id).orElseThrow(
+                ()-> new CustomException(ErrorCode.NotFoundPost)
+        );
+        PostResponseDto postResponseDto = new PostResponseDto(post);
+        return GlobalResDto.success(postResponseDto, null);
+    }
+
+    // 게시글 필터 조회
+    public GlobalResDto<?> filterPost(String name) {
+        List<Post> posts = postRepository.findAllByCategory_NameOrderByCreatedAtDesc(name);
+
+        List<GetAllPostDto> getAllPostDtoList = getAllPost ( posts );
+
+        return GlobalResDto.success ( getAllPostDtoList, null );
+    }
 }

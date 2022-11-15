@@ -23,7 +23,11 @@ public class Category {
 
     @JsonManagedReference
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    List<Post> postList = new ArrayList<>();
+    private List<Post> postList = new ArrayList<>();
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Pet> pet = new ArrayList<>();
 
 
     public Category(String name) {
