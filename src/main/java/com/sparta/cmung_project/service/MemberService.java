@@ -180,7 +180,7 @@ public class MemberService {
         MultiValueMap<String, String> body = new LinkedMultiValueMap<> ();
         body.add("grant_type", "authorization_code");
         body.add("client_id", "d1ffab7f57e5a968da2c498dc57709f9"); // REST API키
-        body.add("redirect_uri", "http://localhost:3000/member/kakao/callback");
+        body.add("redirect_uri", "http://localhost:3000/auth/member/kakao/callback");
         body.add("code", code);
 
         // HTTP 요청 보내기
