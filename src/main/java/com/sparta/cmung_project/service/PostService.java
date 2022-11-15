@@ -116,7 +116,7 @@ public class PostService {
         }
 
         // DTO 반환
-        return GlobalResDto.success(posts,"조회를 성공하였습니다.");
+        return GlobalResDto.success(allPostResponseDtos,"조회를 성공하였습니다.");
     }
 
     
@@ -220,7 +220,7 @@ public class PostService {
         List<GetAllPostDto> getAllPostDtoList = new ArrayList<> ();
 
         for(Post post : postList) {
-            String time = Chrono.timesAgo ( post.getCreatedAt () );
+            String time = Chrono.timesAgo ( post.getCreatedAt() );
             GetAllPostDto getAllPostDto = GetAllPostDto.getAllPostDto ( post, time );
             getAllPostDtoList.add ( getAllPostDto );
         }

@@ -2,12 +2,15 @@ package com.sparta.cmung_project.dto;
 
 import com.sparta.cmung_project.model.Category;
 import com.sparta.cmung_project.model.Post;
+import com.sparta.cmung_project.time.Time;
 import com.sparta.cmung_project.util.Chrono;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -19,7 +22,7 @@ public class AllPostResponseDto {
     private String title;
     private String content;
 
-    private Category category;
+    private String category;
 
     private String state;
     private int price;
@@ -29,14 +32,17 @@ public class AllPostResponseDto {
 
     public AllPostResponseDto(Post post, List<String> imgs) {
         this.id = post.getId();
-        this.nickname = post.getMember ().getNickname ();
+        this.nickname = post.getMember().getNickname();
         this.title = post.getTitle();
         this.content = post.getContent();
-        this.category =post.getCategory();
+        this.category = post.getCategory().getName();
         this.state = post.getState();
         this.price = post.getPrice();
         this.imgs = imgs;
-        this.createdAt = Chrono.timesAgo(post.getCreatedAt());
+
+        // 시간 처리
+        Date date = Timestamp.valueOf(post.getCreatedAt());
+        this.createdAt = Time.calculateTime(date);
     }
 
 }
