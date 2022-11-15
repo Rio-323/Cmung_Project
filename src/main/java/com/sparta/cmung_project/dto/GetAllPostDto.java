@@ -17,6 +17,7 @@ public class GetAllPostDto {
     private String category;
     private String state;
     private String local;
+    private String date;
     private int price;
     private String createdAt;
 
@@ -30,6 +31,7 @@ public class GetAllPostDto {
                 post.getCategory ().getName (),
                 post.getState (),
                 post.getLocal (),
+                post.getDate (),
                 post.getPrice (),
                 time
         );

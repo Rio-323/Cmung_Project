@@ -27,6 +27,8 @@ public class PostRequestDto {
 
     private String local;
 
+    private String date;
+
     @NotNull(message = "가격을 입력해 주세요.")
     private int price;
 }
