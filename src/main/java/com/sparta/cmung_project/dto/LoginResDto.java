@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class LoginResDto {
 
-    private String userId;
+    private String email;
     private String nickname;
     private String userImage;
 
     public LoginResDto(Member member, String userImage) {
-        this.userId = member.getUserId ();
+        this.email = member.getEmail ();
         this.nickname = member.getNickname ();
         this.userImage = userImage;
     }

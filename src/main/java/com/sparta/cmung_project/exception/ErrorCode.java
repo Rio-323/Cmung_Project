@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
 
     NotFoundMember(HttpStatus.NOT_FOUND.value(), "M001", "유저가 존재하지 않습니다."),
-    DuplicatedUserId(HttpStatus.BAD_REQUEST.value(), "M002", "아이디를 사용하는 유저가 존재합니다"),
+    DuplicatedEmail(HttpStatus.BAD_REQUEST.value(), "M002", "e-mail을 사용하는 유저가 존재합니다"),
     DuplicatedNickname(HttpStatus.BAD_REQUEST.value (), "M003", "Nickname을 사용하는 유저가 존재합니다." ),
     NoContainsBlank(HttpStatus.BAD_REQUEST.value (), "M004", "Nickname은 공백을 포함할 수 없습니다."),
     WrongPassword(HttpStatus.BAD_REQUEST.value (), "M005", "비밀번호가 틀렸습니다."),
