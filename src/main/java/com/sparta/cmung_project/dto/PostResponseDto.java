@@ -16,10 +16,11 @@ public class PostResponseDto {
     private String title;
     private String content;
     private int price;
-    private Category category;
     private String categoryName;
+    private String local;
     private String state;
     private List<String> imgs;
+
     private String createdAt;
 
 
@@ -30,15 +31,19 @@ public class PostResponseDto {
         this.price = post.getPrice();
         this.categoryName = post.getCategory().getName();
         this.state = post.getState();
+        this.local = post.getLocal();
     }
 
-    public PostResponseDto(Long id, String title, String content, int price, String categoryName, List<String> imageList) {
+    public PostResponseDto(Long id, String title, String content, int price, String categoryName,
+                           String state, String local, List<String> imageList) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.price = price;
         this.categoryName = categoryName;
         this.imgs = imageList;
+        this.state = state;
+        this.local = local;
     }
 
 

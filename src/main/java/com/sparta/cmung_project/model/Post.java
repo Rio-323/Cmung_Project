@@ -31,6 +31,9 @@ public class Post extends Timestamped {
     @Column(nullable = false)
     private String state;
 
+    @Column(nullable = false)
+    private String local;
+
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "categoryId", nullable = false)
@@ -75,6 +78,7 @@ public class Post extends Timestamped {
                 .collect(Collectors.toList());
 
         // DTO 반환
-        return new PostResponseDto(this.id, this.title, this.content, this.price, this.category.getName(), imageList);
+        return new PostResponseDto(this.id, this.title, this.content, this.price,
+                this.category.getName(), this.state, this.local, imageList);
     }
 }
