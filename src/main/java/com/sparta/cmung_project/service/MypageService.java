@@ -46,8 +46,8 @@ public class MypageService {
     }
 
     // API 마이페이지 게시글
-    // 이미지 반환 미구현
     public GlobalResDto<?> getUserPosts(int page, Member member) throws RuntimeException {
+        // 게시글 조회
         List<PostResponseDto> postsDto = postRepository.findAllByMemberOrderByCreatedAtDesc(member)
                 .stream().map((post) -> {
                     // 포스트 객체를 DTO로 만든다.
