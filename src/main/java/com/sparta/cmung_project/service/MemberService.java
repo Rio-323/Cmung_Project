@@ -83,7 +83,6 @@ public class MemberService {
 
     @Transactional
     public GlobalResDto<?> login(LoginReqDto loginReqDto, HttpServletResponse response) {
-
         Member member = memberRepository.findByEmail ( loginReqDto.getEmail () ).orElseThrow (
                 () -> new CustomException ( ErrorCode.NotFoundMember )
         );

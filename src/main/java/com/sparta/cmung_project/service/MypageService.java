@@ -37,7 +37,7 @@ public class MypageService {
     // API 마이페이지 회원 정보
     public GlobalResDto<?> getUserInfo(Member member) throws RuntimeException {
         // 멤버 객체를 DTO로 만든다
-        log.info(member.getUserId());
+        log.info(member.getEmail());
         log.info(member.getNickname());
         MemberResponseDto memberDto = member.toDto();
 
