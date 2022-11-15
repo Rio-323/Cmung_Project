@@ -1,7 +1,9 @@
 package com.sparta.cmung_project.model;
 
+
 import com.sparta.cmung_project.dto.MemberReqDto;
 import com.sparta.cmung_project.dto.MemberResponseDto;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,11 +34,22 @@ public class Member {
     @Column(nullable = true)
     private String userImage;
 
+    @Column(nullable = true)
+    private Long kakaoId;
+
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Post> post;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Pet> pet;
+
+    public Member(String nickname, String encodePassword, String email, String userImage, Long kakaoId) {
+        this.nickname = nickname;
+        this.password = encodePassword;
+        this.email = email;
+        this.userImage = userImage;
+        this.kakaoId = kakaoId;
+    }
 
     public MemberResponseDto toDto() {
         return new MemberResponseDto(this.id, this.nickname, this.userImage);
@@ -53,4 +66,6 @@ public class Member {
     }
 
     public void setEncodePassword(String encodePassword) { this.password = encodePassword; }
+
+
 }
