@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/search")
-public class SearchPostController {
+@RequestMapping("/api/filter")
+public class FilterPostController {
     private final PostService postService;
 
     @GetMapping
-    public GlobalResDto<?> searchPost(@RequestParam(name = "content") String content) {
-        return postService.searchPost ( content );
+    public GlobalResDto<?> filterPost(@RequestParam(name = "category") String category) {
+        return postService.filterPost ( category );
     }
 }

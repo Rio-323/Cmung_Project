@@ -201,6 +201,7 @@ public class PostService {
         return GlobalResDto.success(postResponseDto,"수정이 완료 되었습니다.");
     }
 
+    // 게시글 검색
     public GlobalResDto<?> searchPost(String searchKeyword) {
 
         if(searchKeyword.length () < 2) {
@@ -214,7 +215,7 @@ public class PostService {
         return GlobalResDto.success ( getAllPostDtoList, null );
     }
 
-
+    // 게시글 리스트를 DTO로 만든다.
     public List<GetAllPostDto> getAllPost(List<Post> postList) {
         List<GetAllPostDto> getAllPostDtoList = new ArrayList<> ();
 
@@ -227,7 +228,7 @@ public class PostService {
         return getAllPostDtoList;
     }
 
-    //게시물 상세조회
+    // 게시글 상세 조회
     @Transactional(readOnly = true)
     public GlobalResDto<PostResponseDto> getOne(Long id){
         Post post = postRepository.findById(id).orElseThrow(
@@ -235,5 +236,14 @@ public class PostService {
         );
         PostResponseDto postResponseDto = new PostResponseDto(post);
         return GlobalResDto.success(postResponseDto, null);
+    }
+
+    // 게시글 필터 조회
+    public GlobalResDto<?> filterPost(String name) {
+        List<Post> posts = postRepository.findAllByCategory_NameOrderByCreatedAtDesc(name);
+
+        List<GetAllPostDto> getAllPostDtoList = getAllPost ( posts );
+
+        return GlobalResDto.success ( getAllPostDtoList, null );
     }
 }
