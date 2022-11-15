@@ -204,7 +204,7 @@ public class PostService {
     // 게시글 검색
     public GlobalResDto<?> searchPost(String searchKeyword) {
 
-        if(searchKeyword.length () < 2) {
+        if(searchKeyword.length () < 1) {
             throw new CustomException ( ErrorCode.SearchKeywordLengthError );
         }
 
