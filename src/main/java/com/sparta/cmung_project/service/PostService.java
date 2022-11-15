@@ -36,7 +36,6 @@ public class PostService {
     @Transactional
     public GlobalResDto<PostResponseDto> createPost(PostRequestDto postRequestDto, List<MultipartFile> file, Member member){
         log.info("createPost() 호출");
-        log.info(String.valueOf("파일 개수 : " + file.size()));
 
         List<Image> imgs = new ArrayList<>();
 
@@ -57,15 +56,23 @@ public class PostService {
             categoryRepository.save(category);
             post = new Post(postRequestDto, category, member);
         }
-
-        // 이미지 파일 처리
-        for (MultipartFile multipartFile : file) {
-            // 이미지 저장
-            Image img = imgRepository.save(new Image(s3Service.uploadFile(multipartFile), post));
-            log.info("이미지 저장 : " + img.getImage());
-            // 이미지 리스트에 추가
-            imgs.add(img);
+        
+        // MultipartFile Null 체크
+        if(file != null) {
+            log.info("파일이 Null이 아닙니다.");
+            // 이미지 파일 처리
+            for (MultipartFile multipartFile : file) {
+                // 이미지 저장
+                Image img = imgRepository.save(new Image(s3Service.uploadFile(multipartFile), post));
+                log.info("이미지 저장 : " + img.getImage());
+                // 이미지 리스트에 추가
+                imgs.add(img);
+            }
+        } else {
+            log.info("파일이 Null 입니다.");
+            log.info("이미지 저장 과정을 생략합니다.");
         }
+
         // 포스트 DB 저장
         postRepository.save(post);
 
@@ -134,6 +141,8 @@ public class PostService {
     // 게시글 수정
     @Transactional
     public GlobalResDto<PostResponseDto> modifyPost(Long postId, List<MultipartFile> file, PostRequestDto postRequestDto, Member member){
+        log.info("modifyPost() 호출");
+
         // 게시글 가져오기
         Post post = postRepository.findByIdAndMember(postId, member);
 
@@ -151,13 +160,20 @@ public class PostService {
         // 이미지 리스트 작성
         List<Image> imgs = new ArrayList<>();
 
-        // S3에 이미지 저장
-        for (MultipartFile multipartFile : file) {
+        // MultipartFile Null 체크
+        if(file != null) {
+            log.info("파일이 Null이 아닙니다.");
             // S3에 이미지 저장
-            // 이미지 생성
-            Image img = imgRepository.save(new Image(s3Service.uploadFile(multipartFile), post));
-            // 이미지 리스트에 이미지 추가
-            imgs.add(img);
+            for (MultipartFile multipartFile : file) {
+                // S3에 이미지 저장
+                // 이미지 생성
+                Image img = imgRepository.save(new Image(s3Service.uploadFile(multipartFile), post));
+                // 이미지 리스트에 이미지 추가
+                imgs.add(img);
+            }
+        } else {
+            log.info("파일이 Null 입니다.");
+            log.info("이미지 저장 과정을 생략합니다.");
         }
 
         // 카테고리 검색
