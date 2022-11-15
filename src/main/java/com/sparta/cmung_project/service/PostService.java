@@ -208,7 +208,7 @@ public class PostService {
             throw new CustomException ( ErrorCode.SearchKeywordLengthError );
         }
 
-        List<Post> postList = postRepository.findAllByTitleContainingOrContentContainingOrLocalContaining ( searchKeyword, searchKeyword );
+        List<Post> postList = postRepository.findAllByTitleContainingOrContentContainingOrLocalContaining ( searchKeyword, searchKeyword, searchKeyword );
 
         List<GetAllPostDto> getAllPostDtoList = getAllPost ( postList );
 

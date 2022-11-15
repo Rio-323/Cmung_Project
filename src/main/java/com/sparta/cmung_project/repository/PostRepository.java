@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
     Optional<Post> findById(Long id);
-    List<Post> findAllByTitleContainingOrContentContainingOrLocalContaining(String searchKeyword, String searchKeyword1);
+    List<Post> findAllByTitleContainingOrContentContainingOrLocalContaining(String searchKeyword1, String searchKeyword2, String searchKeyword3);
     Post findByIdAndMember(Long id, Member member);
     List<Post> findAllByOrderByCreatedAtDesc();
     List<Post> findAllByMemberOrderByCreatedAtDesc(Member member);

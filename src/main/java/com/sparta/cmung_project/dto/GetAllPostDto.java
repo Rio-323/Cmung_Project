@@ -10,20 +10,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GetAllPostDto {
-
     private Long id;
     private String nickname;
     private String title;
     private String content;
-
     private String category;
-
     private String state;
+    private String local;
     private int price;
-
-
     private String createdAt;
-
 
 
     public static GetAllPostDto getAllPostDto(Post post, String time) {
@@ -34,6 +29,7 @@ public class GetAllPostDto {
                 post.getContent (),
                 post.getCategory ().getName (),
                 post.getState (),
+                post.getLocal (),
                 post.getPrice (),
                 time
         );

@@ -21,12 +21,10 @@ public class AllPostResponseDto {
     private String nickname;
     private String title;
     private String content;
-
     private String category;
-
     private String state;
+    private String local;
     private int price;
-
     private List<String> imgs;
     private String createdAt;
 
@@ -37,6 +35,7 @@ public class AllPostResponseDto {
         this.content = post.getContent();
         this.category = post.getCategory().getName();
         this.state = post.getState();
+        this.local = post.getLocal();
         this.price = post.getPrice();
         this.imgs = imgs;
 

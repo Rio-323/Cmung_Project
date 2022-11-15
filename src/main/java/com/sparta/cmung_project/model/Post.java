@@ -55,6 +55,7 @@ public class Post extends Timestamped {
         this.category = category;
         this.member = member;
         this.state = postRequestDto.getState();
+        this.local = postRequestDto.getLocal();
     }
 
     public void update (PostRequestDto postRequestDto, Category category) {
@@ -63,6 +64,7 @@ public class Post extends Timestamped {
         this.category = category;
         this.state = postRequestDto.getState();
         this.price = postRequestDto.getPrice();
+        this.local = postRequestDto.getLocal();
     }
 
     public PostResponseDto toDto() {

@@ -25,7 +25,6 @@ public class PostRequestDto {
     @NotNull(message = "상태를 입력해 주세요.")
     private String state;
 
-    @NotNull(message = "지역을 입력해 주세요.")
     private String local;
 
     @NotNull(message = "가격을 입력해 주세요.")
