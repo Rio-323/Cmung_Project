@@ -50,7 +50,7 @@ public class RoomService {
     public RoomInfoResponseDto createRoom(Member member, RoomInfoRequestDto requestDto) {
         Post post = postRepository.findById(requestDto.getPostId())
                 .orElseThrow(()-> new IllegalArgumentException("해당하는 게시글이 없습니다."));
-        RoomDetail room = roomDetailsRepository.findByMember_MemberIdAndItem_Id(member.getId(), requestDto.getPostId())/*맴버와 아이템 아이디 값이 없으면 빌드실행*/
+        RoomDetail room = roomDetailsRepository.findByMember_IdAndPost_Id(member.getId(), requestDto.getPostId())/*맴버와 아이템 아이디 값이 없으면 빌드실행*/
                 .orElseGet(() ->{
                     RoomInfo roomInfo = RoomInfo.builder()
                             .member(member)
@@ -77,7 +77,7 @@ public class RoomService {
 
     @Transactional
     public void updateLastReadChat(Long roomId, Long memberId, Long itemId) {
-        RoomDetail detail = roomDetailsRepository.findByRoomInfo_IdAndMember_MemberIdAndItem_Id(roomId, memberId, itemId)
+        RoomDetail detail = roomDetailsRepository.findByRoomInfo_IdAndMember_IdAndPostId(roomId, memberId, itemId)
                 .orElseThrow(() -> new IllegalArgumentException("채팅방에 속해있지 않은 회원입니다."));
 
         Chat chat = chatRepository.findFirstByRoomDetail_RoomInfo_IdOrderByCreatedAtDesc(roomId)
@@ -136,10 +136,10 @@ public class RoomService {
         Member member = memberRepository.findById(inviteDto.getMemberId())
                 .orElseThrow(() -> new IllegalArgumentException("초대 대상이 올바르지 않습니다."));
         log.info(member.toString());
-        Post post = postRepository.findById(inviteDto.getItemId())
+        Post post = postRepository.findById(inviteDto.getPostId())
                 .orElseThrow(()-> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
         log.info(post.toString());
-        RoomDetail roomDetail = roomDetailsRepository.findByRoomInfo_IdAndMember_MemberIdAndItem_Id(roomInfoId, inviteDto.getMemberId(),inviteDto.getItemId())
+        RoomDetail roomDetail = roomDetailsRepository.findByRoomInfo_IdAndMember_IdAndPostId(roomInfoId, inviteDto.getMemberId(),inviteDto.getPostId())
                 .orElse(new RoomDetail(roomInfo, member, post));
 
         roomDetailsRepository.save(roomDetail);

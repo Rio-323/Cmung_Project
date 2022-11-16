@@ -26,12 +26,14 @@ public class ChatController {
     private final RoomInfoRepository roomInfoRepository;
     private final RoomDetailRepository roomDetailRepository;
     private final ChatService chatService;
+
+
     /*채팅방과 연결*/
     @GetMapping("/room/{itemId}")
     public ResponseEntity<?> getRoomChat(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                          @PathVariable Long itemId) {
         Member member = userDetails.getMember();
-        RoomDetail roomDetail = roomDetailRepository.findByMember_MemberIdAndItem_Id(member.getId(), itemId)
+        RoomDetail roomDetail = roomDetailRepository.findByMember_IdAndPost_Id(member.getId(), itemId)
                 .orElseThrow();
     List<ChatDto> chats = chatService.getChat(roomDetail.getRoomInfo());
         return ResponseEntity.ok().body(chats);

@@ -31,7 +31,6 @@ public class RoomInfo extends Timestamped {
     private Post post;
 
     @ManyToOne
-    @JoinColumn(name = "memberId")
     private Member member;
 
     @Column(nullable = false)

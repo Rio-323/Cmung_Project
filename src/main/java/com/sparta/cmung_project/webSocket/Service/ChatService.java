@@ -26,7 +26,7 @@ public class ChatService {
 
     @Transactional
     public ChatDto saveChat(Long roomId, ChatDto message) {
-        RoomDetail roomDetail = roomDetailsRepository.findByRoomInfo_IdAndMember_MemberId(roomId, message.getMemberId())
+        RoomDetail roomDetail = roomDetailsRepository.findByRoomInfo_IdAndMember_Id(roomId, message.getMemberId())
                 .orElseThrow(() -> new IllegalArgumentException("채팅방에 관한 정보가 없습니다."));
         roomDetail.getRoomInfo().updateRecentChat(message.getContent());
         RoomInfo roomInfo = roomInfoRepository.findById(roomId).orElseThrow(()-> new IllegalArgumentException("채팅방이 존재하지 않습니다."));

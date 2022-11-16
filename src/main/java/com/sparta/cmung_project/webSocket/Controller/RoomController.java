@@ -50,7 +50,7 @@ public class RoomController {
     public ResponseEntity<?> deleteRoomInfo(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                             @PathVariable Long itemId) {
         Member member = userDetails.getMember();
-        RoomInfo roomInfo = roomInfoRepository.findByMember_MemberIdAndItem_Id(member.getId(), itemId)
+        RoomInfo roomInfo = roomInfoRepository.findByMember_IdAndPost_Id(member.getId(), itemId)
                 .orElseThrow(()-> new IllegalArgumentException("존재하지 않는 채팅방 입니다."));
         roomService.deleteRoomInfo(member, roomInfo.getId());
         return ResponseEntity.ok().body(Map.of("success", true, "msg", "삭제 성공"));

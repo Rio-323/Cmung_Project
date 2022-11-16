@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RoomInviteDto {
     private Long memberId;
-    private Long itemId;
+    private Long postId;
     private String title;
     private String nickname;
 }

@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface RoomDetailRepository extends JpaRepository<RoomDetail, Long> {
 
     List<RoomDetail>findAllByMemberOrderByModifiedAtDesc(Member member);
-    Optional<RoomDetail> findByRoomInfo_IdAndMember_MemberIdAndItem_Id(Long infoId, Long memberId, Long itemId);
-    Optional<RoomDetail> findByMember_MemberIdAndItem_Id(Long memberId, Long itemId);
-    Optional<RoomDetail> findByRoomInfo_IdAndMember_MemberId(Long infoId, Long memberId);
+    Optional<RoomDetail> findByRoomInfo_IdAndMember_IdAndPostId(Long infoId, Long memberId, Long postId);
+    Optional<RoomDetail> findByMember_IdAndPost_Id(Long memberId, Long postId);
+    Optional<RoomDetail> findByRoomInfo_IdAndMember_Id(Long infoId, Long memberId);
 }
