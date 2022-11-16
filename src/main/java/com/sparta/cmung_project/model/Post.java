@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sparta.cmung_project.dto.PostRequestDto;
 import com.sparta.cmung_project.dto.PostResponseDto;
+
 import lombok.*;
 
 import javax.persistence.*;
@@ -41,6 +42,7 @@ public class Post extends Timestamped {
     @ManyToOne
     @JoinColumn(name = "categoryId", nullable = false)
     private Category category;
+
 
     @JsonBackReference
     @ManyToOne
