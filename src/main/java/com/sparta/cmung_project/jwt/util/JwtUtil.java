@@ -53,17 +53,17 @@ public class JwtUtil {
     }
 
     // 토큰 생성
-    public TokenDto createAllToken(String userId) {
-        return new TokenDto ( createToken ( userId, "Access" ), createToken ( userId, "Refresh" ) );
+    public TokenDto createAllToken(String email ) {
+        return new TokenDto ( createToken ( email, "Access" ), createToken ( email, "Refresh" ) );
     }
 
-    public String createToken(String userId, String type) {
+    public String createToken(String email, String type) {
 
         Date date = new Date ();
         long time = type.equals ( "Access" ) ? ACCESS_TIME : REFRESH_TIME;
 
         return Jwts.builder ()
-                .setSubject ( userId )
+                .setSubject ( email )
                 .setExpiration ( new Date ( date.getTime () + time ) )
                 .setIssuedAt ( date )
                 .signWith ( key, signatureAlgorithm )
@@ -88,20 +88,20 @@ public class JwtUtil {
         if(!tokenValidation ( token )) return false;
 
         // DB에 저장한 토큰 비교
-        Optional<RefreshToken> refreshToken = refreshTokenRepository.findByMemberUserId ( getUserIdFromToken ( token ) );
+        Optional<RefreshToken> refreshToken = refreshTokenRepository.findByMemberEmail ( getEmailFromToken ( token ) );
 
         return refreshToken.isPresent () && token.equals ( refreshToken.get ().getRefreshToken () );
     }
 
     // 인증 객체 생성
-    public Authentication createAuthentication(String userId) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername (userId);
+    public Authentication createAuthentication(String email) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername (email);
 
         return new UsernamePasswordAuthenticationToken ( userDetails, "", userDetails.getAuthorities () );
     }
 
-    // 토큰에서 userId를 가져오는 기능
-    public String getUserIdFromToken(String token) {
+    // 토큰에서 email 를 가져오는 기능
+    public String getEmailFromToken(String token) {
         return Jwts.parserBuilder ().setSigningKey ( key ).build ().parseClaimsJws ( token ).getBody ().getSubject ();
     }
 }

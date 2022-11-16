@@ -3,7 +3,7 @@ POST http://localhost:8080/auth/idCheck
 Content-Type: application/json
 
 {
-  "userId": "wepungsan5849"
+  "email": "asd1234@naver.com"
 }
 
 ###중복확인
@@ -21,7 +21,7 @@ POST http://localhost:8080/auth/signup
 Content-Type: application/json
 
 {
-  "userId": "wepungsan5849",
+  "email": "asd1234@naver.com",
   "nickname" : "cmung",
   "password": "Asd1234!",
   "passwordCheck": "Asd1234!"
@@ -32,6 +32,6 @@ POST http://localhost:8080/auth/login
 Content-Type: application/json
 
 {
-  "userId": "wepungsan5849",
+  "email": "asd1234@naver.com",
   "password": "Asd1234!"
 }

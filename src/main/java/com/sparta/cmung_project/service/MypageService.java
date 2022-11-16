@@ -37,7 +37,7 @@ public class MypageService {
     // API 마이페이지 회원 정보
     public GlobalResDto<?> getUserInfo(Member member) throws RuntimeException {
         // 멤버 객체를 DTO로 만든다
-        log.info(member.getUserId());
+        log.info(member.getEmail());
         log.info(member.getNickname());
         MemberResponseDto memberDto = member.toDto();
 
@@ -46,9 +46,9 @@ public class MypageService {
     }
 
     // API 마이페이지 게시글
-    // 이미지 반환 미구현
     public GlobalResDto<?> getUserPosts(int page, Member member) throws RuntimeException {
-        List<PostResponseDto> postsDto = postRepository.findAllByMember(member)
+        // 게시글 조회
+        List<PostResponseDto> postsDto = postRepository.findAllByMemberOrderByCreatedAtDesc(member)
                 .stream().map((post) -> {
                     // 포스트 객체를 DTO로 만든다.
                     PostResponseDto postDto = post.toDto();

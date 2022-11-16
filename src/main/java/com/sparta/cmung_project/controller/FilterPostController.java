@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/search")
-public class SearchPostController {
+@RequestMapping("/api/filter")
+public class FilterPostController {
     private final PostService postService;
 
     @GetMapping
-    public GlobalResDto<?> searchPost(@RequestParam(name = "content") String content) {
-        log.info("게시글 검색");
+    public GlobalResDto<?> filterPost(@RequestParam(name = "category") String category) {
+        log.info("게시글 필터");
         
-        return postService.searchPost ( content );
+        return postService.filterPost ( category );
     }
 }

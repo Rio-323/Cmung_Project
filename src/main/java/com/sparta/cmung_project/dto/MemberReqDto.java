@@ -11,9 +11,10 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class MemberReqDto {
     @NotBlank(message = "아이디는 반드시 입력해야합니다")
-    @Size(min = 4, max = 20, message = "아이디의 길이는 4 ~ 20입니다.")
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*\\d)[a-z\\d]{4,20}$", message = "아이디는 영문과 소문자, 숫자 모두 입력하여야 합니다.")
-    private String userId;
+
+    @Size(min = 4, max = 60, message = "아이디는 e-mail 형식을 지켜야 합니다.")
+    @Pattern(regexp = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$", message = "아이디는 e-mail 형식을 지켜야 합니다.")
+    private String email;
 
     @NotBlank(message = "비밀번호는 반드시 입력해야합니다.")
     @Size(min = 8, max = 20, message = "비밀번호의 길이는 8 ~ 20 입니다.")
@@ -29,8 +30,8 @@ public class MemberReqDto {
     private String nickname;
 
 
-    public MemberReqDto(String userId, String password, String nickname) {
-        this.userId = userId;
+    public MemberReqDto(String email, String password, String nickname) {
+        this.email = email;
         this.password = password;
         this.nickname = nickname;
     }

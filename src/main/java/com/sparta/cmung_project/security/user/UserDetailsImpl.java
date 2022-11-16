@@ -1,14 +1,21 @@
 package com.sparta.cmung_project.security.user;
 
 import com.sparta.cmung_project.model.Member;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
+@NoArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 
     private Member member;
+
+    public UserDetailsImpl(Member member) {
+        this.member = member;
+    }
 
     public Member getMember() {
         return this.member;

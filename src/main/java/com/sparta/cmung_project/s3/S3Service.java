@@ -15,9 +15,7 @@ import java.io.IOException;
 @Service
 @Slf4j
 public class S3Service {
-
     @Value("${application.bucket.name}")
-
     private String bucketName;
 
     @Autowired
@@ -30,12 +28,6 @@ public class S3Service {
         fileObj.delete();
         return s3Client.getUrl(bucketName, fileName).toString();
     }
-
-
-    public void deleteFile(String fileName) {
-        s3Client.deleteObject(bucketName, fileName);
-    }
-
 
     private File convertMultiPartFileToFile(MultipartFile file) {
         File convertedFile = new File(file.getOriginalFilename());
