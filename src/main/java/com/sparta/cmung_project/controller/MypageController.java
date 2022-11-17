@@ -1,18 +1,15 @@
 package com.sparta.cmung_project.controller;
 
-import com.sparta.cmung_project.dto.*;
+import com.sparta.cmung_project.dto.GlobalResDto;
+import com.sparta.cmung_project.dto.PetRequestDto;
 import com.sparta.cmung_project.exception.CustomException;
 import com.sparta.cmung_project.security.user.UserDetailsImpl;
 import com.sparta.cmung_project.service.MypageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor // 기본 생성자를 만들어줍니다.

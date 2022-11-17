@@ -1,6 +1,5 @@
 package com.sparta.cmung_project.exception;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

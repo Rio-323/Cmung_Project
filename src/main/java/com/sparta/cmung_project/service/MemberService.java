@@ -154,13 +154,13 @@ public class MemberService {
         Optional<RefreshToken> refreshToken = refreshTokenRepository.findByMemberEmail ( kakaoMemberInfo.getEmail () );
 
         // 로그아웃한 후 로그인을 다시 하는가?
+        RefreshToken refreshToken1;
         if(refreshToken.isPresent ()) {
-            RefreshToken refreshToken1 = refreshToken.get ().updateToken ( tokenDto.getRefreshToken () );
-            refreshTokenRepository.save ( refreshToken1 );
+            refreshToken1 = refreshToken.get ().updateToken ( tokenDto.getRefreshToken () );
         } else {
-            RefreshToken newRefreshToken = new RefreshToken ( tokenDto.getRefreshToken (), kakaoMemberInfo.getEmail () );
-            refreshTokenRepository.save ( newRefreshToken );
+            refreshToken1 = new RefreshToken ( tokenDto.getRefreshToken (), kakaoMemberInfo.getEmail () );
         }
+        refreshTokenRepository.save ( refreshToken1 );
 
         //토큰을 header에 넣어서 클라이언트에게 전달하기
         setHeader ( response, tokenDto );
@@ -179,8 +179,8 @@ public class MemberService {
         // HTTP Body 생성
         MultiValueMap<String, String> body = new LinkedMultiValueMap<> ();
         body.add("grant_type", "authorization_code");
-        body.add("client_id", "d1ffab7f57e5a968da2c498dc57709f9"); // REST API키
-        body.add("redirect_uri", "http://localhost:3000/auth/member/kakao/callback");
+        body.add("client_id", "${kakao.rest.api}"); // REST API키
+        body.add("redirect_uri", "http://localhost:3000/auth/member/kakao/callback"); // 추후에 프론트 서버로 바껴야 함.
         body.add("code", code);
 
         // HTTP 요청 보내기
@@ -274,9 +274,9 @@ public class MemberService {
         SecurityContextHolder.getContext ().setAuthentication ( authentication );
     }
 
-    public GlobalResDto<Object> naverLogin(String code, HttpServletResponse response) throws JsonProcessingException {
+    public GlobalResDto<Object> naverLogin(String code, String state, HttpServletResponse response) throws JsonProcessingException {
         // 1. "인가 코드"로 "액세스 토큰" 요청
-        String accessToken = getNaverAccessToken ( code );
+        String accessToken = getNaverAccessToken ( code, state );
 
         // 2. "액세스 토큰"으로 "카카오 사용자 정보" 가져오기
         NaverMemberInfoDto naverMemberInfo = getNaverMemberInfo ( accessToken );
@@ -294,13 +294,13 @@ public class MemberService {
         Optional<RefreshToken> refreshToken = refreshTokenRepository.findByMemberEmail ( naverMemberInfo.getEmail () );
 
         // 로그아웃한 후 로그인을 다시 하는가?
+        RefreshToken refreshToken1;
         if(refreshToken.isPresent ()) {
-            RefreshToken refreshToken1 = refreshToken.get ().updateToken ( tokenDto.getRefreshToken () );
-            refreshTokenRepository.save ( refreshToken1 );
+            refreshToken1 = refreshToken.get ().updateToken ( tokenDto.getRefreshToken () );
         } else {
-            RefreshToken newRefreshToken = new RefreshToken ( tokenDto.getRefreshToken (), naverMemberInfo.getEmail () );
-            refreshTokenRepository.save ( newRefreshToken );
+            refreshToken1 = new RefreshToken ( tokenDto.getRefreshToken (), naverMemberInfo.getEmail () );
         }
+        refreshTokenRepository.save ( refreshToken1 );
 
         //토큰을 header에 넣어서 클라이언트에게 전달하기
         setHeader ( response, tokenDto );
@@ -319,7 +319,7 @@ public class MemberService {
         MultiValueMap<String, String> body = new LinkedMultiValueMap<> ();
         body.add ( "grant_type", "authorization_code" );
         body.add ( "client_id", "${ naver.client.id }");
-        body.add("client_secret", "${ naver.client.secret }");
+        body.add ( "client_secret", "${ naver.client.secret }" );
         body.add("code", code);
         body.add("state", state);
 

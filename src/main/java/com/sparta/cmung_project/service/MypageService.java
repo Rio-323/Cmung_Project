@@ -4,7 +4,6 @@ import com.sparta.cmung_project.dto.*;
 import com.sparta.cmung_project.exception.CustomException;
 import com.sparta.cmung_project.exception.ErrorCode;
 import com.sparta.cmung_project.model.Category;
-import com.sparta.cmung_project.model.Image;
 import com.sparta.cmung_project.model.Member;
 import com.sparta.cmung_project.model.Pet;
 import com.sparta.cmung_project.repository.CategoryRepository;
@@ -14,8 +13,6 @@ import com.sparta.cmung_project.repository.PostRepository;
 import com.sparta.cmung_project.s3.S3Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
