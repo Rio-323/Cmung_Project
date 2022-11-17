@@ -21,6 +21,7 @@ public class AllPostResponseDto {
     private String category;
     private String state;
     private String local;
+    private String date;
     private int price;
     private List<String> imgs;
     private String createdAt;
@@ -33,6 +34,7 @@ public class AllPostResponseDto {
         this.category = post.getCategory().getName();
         this.state = post.getState();
         this.local = post.getLocal();
+        this.date = post.getDate();
         this.price = post.getPrice();
         this.imgs = imgs;
 
@@ -40,5 +42,4 @@ public class AllPostResponseDto {
         Date date = Timestamp.valueOf(post.getCreatedAt());
         this.createdAt = Time.calculateTime(date);
     }
-
 }

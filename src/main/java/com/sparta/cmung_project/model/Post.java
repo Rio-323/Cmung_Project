@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sparta.cmung_project.dto.PostRequestDto;
 import com.sparta.cmung_project.dto.PostResponseDto;
+
 import lombok.*;
 
 import javax.persistence.*;
@@ -34,10 +35,14 @@ public class Post extends Timestamped {
     @Column(nullable = false)
     private String local;
 
+    @Column(nullable = false)
+    private String date;
+
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "categoryId", nullable = false)
     private Category category;
+
 
     @JsonBackReference
     @ManyToOne
@@ -56,6 +61,7 @@ public class Post extends Timestamped {
         this.member = member;
         this.state = postRequestDto.getState();
         this.local = postRequestDto.getLocal();
+        this.date = postRequestDto.getDate();
     }
 
     public void update (PostRequestDto postRequestDto, Category category) {
@@ -65,6 +71,7 @@ public class Post extends Timestamped {
         this.state = postRequestDto.getState();
         this.price = postRequestDto.getPrice();
         this.local = postRequestDto.getLocal();
+        this.date = postRequestDto.getDate();
     }
 
     public PostResponseDto toDto() {
@@ -81,6 +88,6 @@ public class Post extends Timestamped {
 
         // DTO 반환
         return new PostResponseDto(this.id, this.title, this.content, this.price,
-                this.category.getName(), this.state, this.local, imageList);
+                this.category.getName(), this.state, this.local, this.date, imageList);
     }
 }
