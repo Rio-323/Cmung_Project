@@ -7,6 +7,7 @@ import com.sparta.cmung_project.security.user.UserDetailsImpl;
 import com.sparta.cmung_project.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,10 +32,10 @@ public class PostController {
     }
 
     @GetMapping("/posts")
-    public GlobalResDto<?> allPost(){
+    public GlobalResDto<?> allPost(Pageable pageable){
         log.info("게시글 목록 조회");
         
-        return postService.allPost();
+        return postService.allPost(pageable);
     }
 
     @DeleteMapping("/posts/{postId}")

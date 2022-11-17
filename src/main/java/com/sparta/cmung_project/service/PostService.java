@@ -14,6 +14,7 @@ import com.sparta.cmung_project.s3.S3Service;
 import com.sparta.cmung_project.util.Chrono;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -95,9 +96,9 @@ public class PostService {
 
     // 게시글 최신순으로 가져오기
     @Transactional(readOnly = true)
-    public GlobalResDto<?> allPost(){
+    public GlobalResDto<?> allPost(Pageable pageable){
         // 포스트 최신순으로 가져오기
-        List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
+        List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc(pageable);
 
         // 포스트 반환 DTO 리스트 작성
         List<AllPostResponseDto> allPostResponseDtos = new ArrayList<>();
