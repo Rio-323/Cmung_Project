@@ -77,12 +77,7 @@ public class WebSecurityConfig {
         http.sessionManagement ().sessionCreationPolicy ( SessionCreationPolicy.STATELESS );
 
         http.authorizeRequests ()
-
                 .antMatchers ( "/auth/**" ).permitAll ()
-                .antMatchers ( "/auth/signup/**" ).permitAll ()
-                .antMatchers ( "/auth/idCheck" ).permitAll ()
-                .antMatchers ( "/auth/nicknameCheck" ).permitAll ()
-                .antMatchers ( "/auth/login/**" ).permitAll ()
                 .antMatchers ( PERMIT_URL_ARRAY ).permitAll ()
                 .anyRequest ().authenticated ()
                 .and ().addFilterBefore ( new JwtAuthFilter ( jwtUtil ), UsernamePasswordAuthenticationFilter.class );

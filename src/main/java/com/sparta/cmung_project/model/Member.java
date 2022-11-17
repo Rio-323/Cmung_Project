@@ -35,10 +35,11 @@ public class Member {
     @Column(nullable = true)
     private String userImage;
 
-
     @Column(nullable = true)
     private Long kakaoId;
 
+    @Column(nullable = true)
+    private Long naverId;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)

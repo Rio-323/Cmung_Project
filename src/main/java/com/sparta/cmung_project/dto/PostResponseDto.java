@@ -1,10 +1,9 @@
 package com.sparta.cmung_project.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.sparta.cmung_project.model.Category;
-import com.sparta.cmung_project.model.Image;
 import com.sparta.cmung_project.model.Post;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 

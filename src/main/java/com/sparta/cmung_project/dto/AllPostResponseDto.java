@@ -1,13 +1,10 @@
 package com.sparta.cmung_project.dto;
 
-import com.sparta.cmung_project.model.Category;
 import com.sparta.cmung_project.model.Post;
 import com.sparta.cmung_project.time.Time;
-import com.sparta.cmung_project.util.Chrono;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import java.sql.Timestamp;
 import java.util.Date;
