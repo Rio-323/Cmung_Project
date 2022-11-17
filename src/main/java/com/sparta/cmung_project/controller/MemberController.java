@@ -65,7 +65,7 @@ public class MemberController {
     public GlobalResDto<?> naverLogin(@RequestParam String code, @RequestParam String state, HttpServletResponse response) throws JsonProcessingException {
         log.info("네이버 로그인");
 
-        // authorizedCode: 카카오 서버로부터 받은 인가 코드
+        // authorizedCode: 네이버 서버로부터 받은 인가 코드
         return memberService.naverLogin(code, state, response);
     }
 }
