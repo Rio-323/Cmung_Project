@@ -58,7 +58,7 @@ public class Member {
     }
 
     public MemberResponseDto toDto() {
-        return new MemberResponseDto(this.id, this.nickname, this.userImage);
+        return new MemberResponseDto(this.id, this.nickname, this.userImage, this.kakaoId, this.naverId);
     }
 
     public Member(MemberReqDto memberReqDto) {
