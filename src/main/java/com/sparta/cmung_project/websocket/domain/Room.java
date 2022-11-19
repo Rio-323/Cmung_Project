@@ -27,11 +27,11 @@ public class Room {
 
 
 
-    public Room(Post post, RoomReqDto roomReqDto, UserDetailsImpl userDetails){
+    public Room(Long id, RoomReqDto roomReqDto, UserDetailsImpl userDetails){
 
-        this.postId = post.getId();
+        this.postId = roomReqDto.getPostId();
         this.title = roomReqDto.getPostTitle();
-        this.postUser = post.getMember().getId();
+        this.postUser = id;
         this.joinUser = userDetails.getMember().getId();
     }
 

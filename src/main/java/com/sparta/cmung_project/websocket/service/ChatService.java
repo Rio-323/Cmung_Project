@@ -44,7 +44,8 @@ public class ChatService {
         Post post = postRepository.findById(roomReqDto.getPostId()).orElseThrow(
                 ()-> new CustomException(ErrorCode.NotFoundPost)
         );
-        Room room = new Room(post,roomReqDto,userDetails);
+        Room room = new Room(post.getId(),roomReqDto,userDetails);
+        roomRepository.save(room);
         return room;
     }
 

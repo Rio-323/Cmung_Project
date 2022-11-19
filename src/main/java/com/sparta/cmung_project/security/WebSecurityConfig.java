@@ -78,7 +78,7 @@ public class WebSecurityConfig {
 
         http.authorizeRequests ()
                 .antMatchers ( "/auth/**" ).permitAll ()
-                .antMatchers ( "/**" ).permitAll ()
+                .antMatchers ( "/ws/**" ).permitAll ()
                 .antMatchers ( PERMIT_URL_ARRAY ).permitAll ()
                 .anyRequest ().authenticated ()
                 .and ().addFilterBefore ( new JwtAuthFilter ( jwtUtil ), UsernamePasswordAuthenticationFilter.class );
