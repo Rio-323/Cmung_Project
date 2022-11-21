@@ -14,9 +14,9 @@ public class MemberResponseDto {
 
     private Long kakaoId;
 
-    private Long naverId;
+    private String naverId;
 
-    public MemberResponseDto(Long id, String nickname, String userImage, Long kakaoId, Long naverId) {
+    public MemberResponseDto(Long id, String nickname, String userImage, Long kakaoId, String naverId) {
         this.id = id;
         this.nickname = nickname;
         this.userImage = userImage;
