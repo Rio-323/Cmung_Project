@@ -76,7 +76,7 @@ public class MemberService {
 
         return GlobalResDto.success ( null, "사용 가능한 아이디 입니다." );
     }
-    public GlobalResDto<Object> nicnameCheck(NicknameCheckDto nicknameCheckDto) {
+    public GlobalResDto<Object> nicknameCheck(NicknameCheckDto nicknameCheckDto) {
 
         if(null != isPresentNickname ( nicknameCheckDto.getNickname () )) {
             throw new CustomException ( ErrorCode.DuplicatedNickname );
