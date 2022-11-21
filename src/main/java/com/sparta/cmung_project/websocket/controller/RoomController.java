@@ -24,12 +24,12 @@ public class RoomController {
      * @param roomId 채팅방 id
      */
     @GetMapping("/{roomId}")
-    public Room joinRoom(@PathVariable(required = false) Long roomId, Model model) {
+    public List<Chat> joinRoom(@PathVariable(required = false) Long roomId, Model model) {
         List<Chat> chatList = chatService.findAllChatByRoomId(roomId);
         Room room = chatService.findRoomById(roomId);
         model.addAttribute("roomId", roomId);
         model.addAttribute("chatList", chatList);
-        return room;
+        return chatList;
     }
 
     /**
