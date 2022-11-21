@@ -26,6 +26,8 @@ public class Post extends Timestamped {
     @Column(nullable = false)
     private String content;
 
+    private String nickname;
+
     @Column(nullable = false)
     private int price;
 
@@ -56,6 +58,7 @@ public class Post extends Timestamped {
     public Post(PostRequestDto postRequestDto, Category category, Member member) {
         this.title = postRequestDto.getTitle();
         this.content = postRequestDto.getContent();
+        this.nickname = member.getNickname();
         this.price = postRequestDto.getPrice();
         this.category = category;
         this.member = member;

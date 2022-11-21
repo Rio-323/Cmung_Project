@@ -2,9 +2,12 @@ package com.sparta.cmung_project.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.sparta.cmung_project.model.Post;
+import com.sparta.cmung_project.time.Time;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -14,6 +17,8 @@ public class PostResponseDto {
     private Long id;
     private String title;
     private String content;
+
+    private String nickname;
     private int price;
     private String categoryName;
     private String state;
@@ -29,11 +34,15 @@ public class PostResponseDto {
         this.title = post.getTitle();
         this.content = post.getContent();
         this.imgs = post.toDto().getImgs();
+        this.nickname = post.getNickname();
         this.price = post.getPrice();
         this.categoryName = post.getCategory().getName();
         this.state = post.getState();
         this.date = post.getDate();
         this.local = post.getLocal();
+
+        Date date = Timestamp.valueOf(post.getCreatedAt());
+        this.createdAt = Time.calculateTime(date);
     }
 
     public PostResponseDto(Long id, String title, String content, int price, String categoryName,
