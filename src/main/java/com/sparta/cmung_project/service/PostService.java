@@ -235,7 +235,7 @@ public class PostService {
         Post post = postRepository.findById(id).orElseThrow(
                 ()-> new CustomException(ErrorCode.NotFoundPost)
         );
-        PostResponseDto postResponseDto = new PostResponseDto(post);
+        PostResponseDto postResponseDto = post.toDto();
         return GlobalResDto.success(postResponseDto, null);
     }
 
