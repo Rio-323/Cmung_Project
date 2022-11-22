@@ -8,10 +8,10 @@ import com.sparta.cmung_project.security.user.UserDetailsImpl;
 import com.sparta.cmung_project.websocket.controller.RoomReqDto;
 import com.sparta.cmung_project.websocket.domain.Chat;
 import com.sparta.cmung_project.websocket.domain.Room;
+import com.sparta.cmung_project.websocket.dto.ChatReqDto;
 import com.sparta.cmung_project.websocket.repository.ChatRepository;
 import com.sparta.cmung_project.websocket.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,7 +44,11 @@ public class ChatService {
         Post post = postRepository.findById(roomReqDto.getPostId()).orElseThrow(
                 ()-> new CustomException(ErrorCode.NotFoundPost)
         );
-        Room room = new Room(post.getId(),roomReqDto,userDetails);
+
+        Room room = roomRepository.findById(roomReqDto.getPostId())
+                .orElse(new Room(post.getMember().getId(), roomReqDto,userDetails));
+
+
         roomRepository.save(room);
         return room;
     }
@@ -53,13 +57,18 @@ public class ChatService {
 
     /**
      * 채팅 생성
-     * @param roomId 채팅방 id
-     * @param sender 보낸이
-     * @param message 내용
      */
-    public Chat createChat(Long roomId, String sender, String message) {
-        Room room = roomRepository.findById(roomId).orElseThrow();  //방 찾기 -> 없는 방일 경우 여기서 예외처리
-        return chatRepository.save(Chat.createChat(room, sender, message));
+    public Chat createChat(Long roomId, ChatReqDto chatReqDto) {
+        Room room = roomRepository.findById(roomId).orElseThrow(
+                ()-> new CustomException(ErrorCode.NotFoundPost)
+        );//방 찾기 -> 없는 방일 경우 여기서 예외처리
+          Chat chat = Chat.builder()
+                .room(room)
+                .sender(chatReqDto.getSender())
+                .message(chatReqDto.getMessage())
+                .build();
+          chatRepository.save(chat);
+        return chat;
     }
 
     /**
