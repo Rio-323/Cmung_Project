@@ -39,7 +39,7 @@ public class Member {
     private Long kakaoId;
 
     @Column(nullable = true)
-    private Long naverId;
+    private String naverId;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
@@ -57,8 +57,16 @@ public class Member {
         this.kakaoId = kakaoId;
     }
 
+    public Member(String email, String nickname, String password, String userImage, String naverId) {
+        this.email = email;
+        this.nickname = nickname;
+        this.password = password;
+        this.userImage = userImage;
+        this.naverId = naverId;
+    }
+
     public MemberResponseDto toDto() {
-        return new MemberResponseDto(this.id, this.nickname, this.userImage);
+        return new MemberResponseDto(this.id, this.nickname, this.userImage, this.kakaoId, this.naverId);
     }
 
     public Member(MemberReqDto memberReqDto) {

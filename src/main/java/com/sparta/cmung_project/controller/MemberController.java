@@ -50,7 +50,7 @@ public class MemberController {
     public GlobalResDto<?> nicknameCheck(@RequestBody @Valid NicknameCheckDto nicknameCheckDto) {
         log.info("닉네임 체크");
 
-        return memberService.nicnameCheck ( nicknameCheckDto );
+        return memberService.nicknameCheck ( nicknameCheckDto );
     }
 
     @GetMapping("/member/kakao/callback")
