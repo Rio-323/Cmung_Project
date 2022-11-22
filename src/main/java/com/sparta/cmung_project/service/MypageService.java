@@ -157,16 +157,21 @@ public class MypageService {
     // API 마이페이지 반려동물 조회
     public GlobalResDto<?> getPet(Member member) throws RuntimeException {
         // 애완동물 존재 검사
-        Pet pet = petRepository.findByMember(member)
-                .orElseThrow(() -> new CustomException( ErrorCode.NotFoundPet ));
+        List<Optional<Pet>> petList = petRepository.findByMember(member);
         
         // 애완동물 객체 DTO로 변환
-        PetResponseDto petDto = pet.toDto();
+        List<PetResponseDto> petListDto = petList
+                .stream().map(pet -> {
+                    PetResponseDto petDto = pet.get().toDto();
 
-        // DTO에 애완동물 주인 설정
-        petDto.setUserId(member.getId());
+                    // DTO에 애완동물 주인 설정
+                    petDto.setUserId(member.getId());
+
+                    return petDto;
+                })
+                .collect(Collectors.toList());
 
         // DTO 반환
-        return GlobalResDto.success(petDto,"마이페이지 애완동물 조회 완료.");
+        return GlobalResDto.success(petListDto,"마이페이지 애완동물 목록 조회 완료.");
     }
 }

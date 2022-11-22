@@ -96,9 +96,9 @@ public class PostService {
 
     // 게시글 최신순으로 가져오기
     @Transactional(readOnly = true)
-    public GlobalResDto<?> allPost(Pageable pageable){
+    public GlobalResDto<?> allPost(){
         // 포스트 최신순으로 가져오기
-        List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc(pageable);
+        List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
 
         // 포스트 반환 DTO 리스트 작성
         List<AllPostResponseDto> allPostResponseDtos = new ArrayList<>();
