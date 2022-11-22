@@ -9,6 +9,7 @@ import lombok.Setter;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -33,7 +34,21 @@ public class PostResponseDto {
         this.id = post.getId();
         this.title = post.getTitle();
         this.content = post.getContent();
-        this.imgs = post.toDto().getImgs();
+
+        // 이미지 객체 리스트를 문자열 리스트로 변환
+        List<String> imageList = post.getImage()
+                .stream().map((imageObj) -> {
+                    // 포스트 객체를 DTO로 만든다.
+                    String imageStr = imageObj.getImage();
+
+                    // DTO 반환
+                    return imageStr;
+                })
+                .collect(Collectors.toList());
+        
+        // 이미지 경로 리스트 저장
+        this.imgs = imageList;
+        
         this.nickname = post.getNickname();
         this.price = post.getPrice();
         this.categoryName = post.getCategory().getName();
