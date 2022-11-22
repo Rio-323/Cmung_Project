@@ -49,19 +49,24 @@ public class UserService {
         if(member.isEmpty()) {
             throw new CustomException ( ErrorCode.NotFoundMember );
         }
-        
-        // 애완동물 존재 검사
-        Optional<Pet> pet = petRepository.findByMember(member.get());
 
-        PetResponseDto petResponseDto = null;
-        if(pet.isPresent()) {
-            petResponseDto = pet.get().toDto();
-        } else {
-            throw new CustomException( ErrorCode.NotFoundPet );
-        }
+        // 애완동물 존재 검사
+        List<Optional<Pet>> petList = petRepository.findByMember(member.get());
+
+        // 애완동물 객체 DTO로 변환
+        List<PetResponseDto> petListDto = petList
+                .stream().map(pet -> {
+                    PetResponseDto petDto = pet.get().toDto();
+
+                    // DTO에 애완동물 주인 설정
+                    petDto.setUserId(member.get().getId());
+
+                    return petDto;
+                })
+                .collect(Collectors.toList());
 
         // DTO 반환
-        return GlobalResDto.success(petResponseDto,"애완동물 정보 조회");
+        return GlobalResDto.success(petListDto,"마이페이지 애완동물 목록 조회 완료.");
     }
 
     public GlobalResDto<?> getUserPosts(Long userId) throws CustomException {
