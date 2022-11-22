@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Entity // DB 테이블 역할을 합니다.
 public class Pet {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
