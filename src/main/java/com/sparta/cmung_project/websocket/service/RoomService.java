@@ -48,7 +48,7 @@ public class RoomService {
         //이미 만든방이 있다면 room에 저장후 리턴
         Room room = roomRepository.findById(roomReqDto.getPostId())
                 //만들어진 방이 없다면 새로 만들어서 리턴
-                .orElse(new Room(post.getMember().getId(), roomReqDto,userDetails));
+                .orElse(new Room(post.getMember().getId(),post.getNickname(), roomReqDto,userDetails));
 
 
         roomRepository.save(room);
