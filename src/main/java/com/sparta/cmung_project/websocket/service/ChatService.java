@@ -20,40 +20,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ChatService {
 
-    private final PostRepository postRepository;
     private final RoomRepository roomRepository;
     private final ChatRepository chatRepository;
 
-    /**
-     * 모든 채팅방 찾기
-     */
-    public List<Room> findAllRoom() {
-        return roomRepository.findAll();
-    }
 
-    /**
-     * 특정 채팅방 찾기
-     * @param id room_id
-     */
-    public Room findRoomById(Long id) {
-        return roomRepository.findById(id).orElseThrow();
-    }
-
-
-    public Room createRoom( RoomReqDto roomReqDto, UserDetailsImpl userDetails) {
-        Post post = postRepository.findById(roomReqDto.getPostId()).orElseThrow(
-                ()-> new CustomException(ErrorCode.NotFoundPost)
-        );
-
-        Room room = roomRepository.findById(roomReqDto.getPostId())
-                .orElse(new Room(post.getMember().getId(), roomReqDto,userDetails));
-
-
-        roomRepository.save(room);
-        return room;
-    }
-
-    /////////////////
 
     /**
      * 채팅 생성
