@@ -25,7 +25,10 @@ public enum ErrorCode {
     SearchKeywordLengthError(HttpStatus.BAD_REQUEST.value(), "P005", "검색 단어의 길이는 두 글자 이상입니다."),
 
     // 필요하신 에러코드 더 작성해주세요!
-    NotFoundPet(HttpStatus.NOT_FOUND.value(), "PE001", "애완동물이 존재하지 않습니다.");
+    NotFoundPet(HttpStatus.NOT_FOUND.value(), "PE001", "애완동물이 존재하지 않습니다."),
+    SameUser(HttpStatus.BAD_REQUEST.value(), "C001", "올바르지 않은 요청입니다."),
+    NotfoundRoom(HttpStatus.NOT_FOUND.value(), "R001", "채팅방이 없습니다.");
+
 
     private final int status;
     private final String code;

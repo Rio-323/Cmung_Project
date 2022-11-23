@@ -10,6 +10,7 @@ import com.sparta.cmung_project.security.user.UserDetailsImpl;
 import com.sparta.cmung_project.websocket.controller.RoomReqDto;
 import com.sparta.cmung_project.websocket.domain.Chat;
 import com.sparta.cmung_project.websocket.domain.Room;
+import com.sparta.cmung_project.websocket.dto.RoomResponseDto;
 import com.sparta.cmung_project.websocket.repository.ChatRepository;
 import com.sparta.cmung_project.websocket.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,15 +29,13 @@ public class RoomService {
 
 
     public GlobalResDto<?> joinRoom(Long roomId) {
-        //채팅방 내용 불러옴
-        List<Chat> chatList = chatRepository.findAllByRoom_PostId(roomId);
-        //없으면 처음 입장하는거라 인식 메세지 '입장' 리턴
-        if(chatList.isEmpty()){
-            return GlobalResDto.success(null,"입장");
-        }else{
-            return GlobalResDto.success(chatList,"채팅내역");
-        }
 
+        Room room = roomRepository.findById(roomId).orElseThrow(
+                ()-> new CustomException(ErrorCode.NotfoundRoom)
+        );
+
+        RoomResponseDto roomResponseDto = new RoomResponseDto(room);
+        return GlobalResDto.success(roomResponseDto, null);
     }
 
     //방 만들기
@@ -44,15 +43,17 @@ public class RoomService {
         Post post = postRepository.findById(roomReqDto.getPostId()).orElseThrow(
                 ()-> new CustomException(ErrorCode.NotFoundPost)
         );
-
+        if(post.getMember().getId().equals(userDetails.getMember().getId())){
+            throw new CustomException(ErrorCode.SameUser);
+        }
         //이미 만든방이 있다면 room에 저장후 리턴
-        Room room = roomRepository.findById(roomReqDto.getPostId())
+        Room room = roomRepository.findRoomByJoinUserAndPostUserAndPostId(userDetails.getMember().getId(), post.getMember().getId(), roomReqDto.getPostId())
                 //만들어진 방이 없다면 새로 만들어서 리턴
-                .orElse(new Room(post.getMember().getId(),post.getNickname(), roomReqDto,userDetails));
-
+                .orElse(new Room(post.getMember().getId(),post.getNickname(), roomReqDto,userDetails, post));
 
         roomRepository.save(room);
-        return GlobalResDto.success(room,null);
+        RoomResponseDto roomResponseDto = new RoomResponseDto(room);
+        return GlobalResDto.success(roomResponseDto,null);
     }
 
     public GlobalResDto<?> roomList(UserDetailsImpl userDetails){

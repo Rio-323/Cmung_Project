@@ -1,5 +1,6 @@
 package com.sparta.cmung_project.websocket.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sparta.cmung_project.model.Member;
 import com.sparta.cmung_project.model.Post;
@@ -17,14 +18,20 @@ public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "room_id")
-    private Long postId;
+    private Long id;
 
     private String title;
 
+    private String state;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "room", cascade = CascadeType.REMOVE ,fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Chat> chats;
+
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "post_id")
+    private Post post;
 
     private Long postUser;
     private String postNickname;
@@ -35,14 +42,15 @@ public class Room {
 
 
 
-    public Room(Long postUserId,String postNickname, RoomReqDto roomReqDto, UserDetailsImpl userDetails){
+    public Room(Long postUserId,String postNickname, RoomReqDto roomReqDto, UserDetailsImpl userDetails, Post post){
 
-        this.postId = roomReqDto.getPostId();
         this.title = roomReqDto.getPostTitle();
         this.postUser = postUserId;
+        this.state = post.getState();
         this.postNickname = postNickname;
         this.joinNickname = userDetails.getMember().getNickname();
         this.joinUser = userDetails.getMember().getId();
+        this.post = post;
     }
 
 }
