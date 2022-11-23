@@ -5,9 +5,12 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sparta.cmung_project.dto.PostRequestDto;
 import com.sparta.cmung_project.dto.PostResponseDto;
 
+import com.sparta.cmung_project.time.Time;
 import lombok.*;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,7 +47,6 @@ public class Post extends Timestamped {
     @ManyToOne
     @JoinColumn(name = "categoryId", nullable = false)
     private Category category;
-
 
     @JsonBackReference
     @ManyToOne
@@ -89,8 +91,13 @@ public class Post extends Timestamped {
                 })
                 .collect(Collectors.toList());
 
+        // 날자 설정
+        Date date = Timestamp.valueOf(super.getCreatedAt());
+        String dateString = Time.calculateTime(date);
+
         // DTO 반환
         return new PostResponseDto(this.id, this.title, this.content, this.price,
-                this.category.getName(), this.state, this.local, this.date, imageList);
+                this.category.getName(), this.state, this.local, this.date, imageList,
+                dateString, this.nickname);
     }
 }

@@ -46,7 +46,8 @@ public class PostResponseDto {
     }
 
     public PostResponseDto(Long id, String title, String content, int price, String categoryName,
-                           String state, String local, String date, List<String> imageList) {
+                           String state, String local, String date, List<String> imageList,
+                           String dateString, String nickname) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -56,6 +57,8 @@ public class PostResponseDto {
         this.state = state;
         this.date = date;
         this.local = local;
+        this.createdAt = dateString;
+        this.nickname = nickname;
     }
 
 
