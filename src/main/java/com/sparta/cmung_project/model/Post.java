@@ -77,6 +77,7 @@ public class Post extends Timestamped {
         this.price = postRequestDto.getPrice();
         this.local = postRequestDto.getLocal();
         this.date = postRequestDto.getDate();
+
     }
 
     public PostResponseDto toDto() {
@@ -90,10 +91,11 @@ public class Post extends Timestamped {
                     return imageStr;
                 })
                 .collect(Collectors.toList());
-
+        
         // 날자 설정
         Date date = Timestamp.valueOf(super.getCreatedAt());
         String dateString = Time.calculateTime(date);
+
 
         // DTO 반환
         return new PostResponseDto(this.id, this.title, this.content, this.price,

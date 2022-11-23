@@ -27,17 +27,21 @@ public class Room {
     private List<Chat> chats;
 
     private Long postUser;
+    private String postNickname;
 
 
     private Long joinUser;
+    private String joinNickname;
 
 
 
-    public Room(Long postUserId, RoomReqDto roomReqDto, UserDetailsImpl userDetails){
+    public Room(Long postUserId,String postNickname, RoomReqDto roomReqDto, UserDetailsImpl userDetails){
 
         this.postId = roomReqDto.getPostId();
         this.title = roomReqDto.getPostTitle();
         this.postUser = postUserId;
+        this.postNickname = postNickname;
+        this.joinNickname = userDetails.getMember().getNickname();
         this.joinUser = userDetails.getMember().getId();
     }
 
