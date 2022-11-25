@@ -10,7 +10,10 @@ import java.util.Optional;
 public interface RoomRepository extends JpaRepository<Room, Long> {
 
 
-    List<Room> findAllByJoinUserOrPostUser(Long postId, Long joinId);
+    List<Room> findAllByJoinUserOrPostUserOrderByIdDesc(Long postId, Long joinId);
+
+    Optional<Room> findRoomByPostIdAndJoinNickname(Long postid, String joinUser);
+
     Optional<Room> findRoomByJoinUserAndPostUserAndPostId(Long joinUser, Long postUser, Long postId);
 
 

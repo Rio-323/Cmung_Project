@@ -7,13 +7,14 @@ import com.sparta.cmung_project.exception.ErrorCode;
 import com.sparta.cmung_project.model.Post;
 import com.sparta.cmung_project.repository.PostRepository;
 import com.sparta.cmung_project.security.user.UserDetailsImpl;
-import com.sparta.cmung_project.websocket.controller.RoomReqDto;
-import com.sparta.cmung_project.websocket.domain.Chat;
+import com.sparta.cmung_project.websocket.dto.ChatSelectReqDto;
+import com.sparta.cmung_project.websocket.dto.RoomReqDto;
 import com.sparta.cmung_project.websocket.domain.Room;
 import com.sparta.cmung_project.websocket.dto.RoomResponseDto;
 import com.sparta.cmung_project.websocket.repository.ChatRepository;
 import com.sparta.cmung_project.websocket.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -28,14 +29,23 @@ public class RoomService {
     private final PostRepository postRepository;
 
 
-    public GlobalResDto<?> joinRoom(Long roomId) {
+    public GlobalResDto<?> joinRoom(ChatSelectReqDto chatSelectReqDto, UserDetailsImpl userDetails) {
 
-        Room room = roomRepository.findById(roomId).orElseThrow(
-                ()-> new CustomException(ErrorCode.NotfoundRoom)
-        );
+        if(chatSelectReqDto.getRoomId() == 1){
 
-        RoomResponseDto roomResponseDto = new RoomResponseDto(room);
-        return GlobalResDto.success(roomResponseDto, null);
+            Room room = roomRepository.findRoomByPostIdAndJoinNickname(chatSelectReqDto.getPostId(), userDetails.getMember().getNickname()).orElseThrow(
+                    ()-> new CustomException(ErrorCode.NotfoundRoom)
+            );
+            RoomResponseDto roomResponseDto = new RoomResponseDto(room);
+            return GlobalResDto.success(roomResponseDto, "기존방에 참여했습니다");
+        }else{
+            Room room = roomRepository.findById(chatSelectReqDto.getRoomId()).orElseThrow(
+                    ()-> new CustomException(ErrorCode.NotfoundRoom)
+            );
+            RoomResponseDto roomResponseDto = new RoomResponseDto(room);
+            return GlobalResDto.success(roomResponseDto, "기존방에 참여했습니다");
+        }
+
     }
 
     //방 만들기
@@ -57,11 +67,18 @@ public class RoomService {
     }
 
     public GlobalResDto<?> roomList(UserDetailsImpl userDetails){
-        List<Room> roomList = roomRepository.findAllByJoinUserOrPostUser(userDetails.getMember().getId(),userDetails.getMember().getId());
+        List<Room> roomList = roomRepository.findAllByJoinUserOrPostUserOrderByIdDesc(userDetails.getMember().getId(),userDetails.getMember().getId());
+
+        List<RoomResponseDto> roomResponseDtos = new ArrayList<>();
+
+        for(Room room : roomList ){
+            roomResponseDtos.add(new RoomResponseDto(room));
+        }
+
         if(roomList.isEmpty()){
             return GlobalResDto.fail("채팅 내역이 없습니다");
         }else{
-            return GlobalResDto.success(roomList,null);
+            return GlobalResDto.success(roomResponseDtos,null);
         }
 
     }

@@ -27,7 +27,6 @@ public class ChatController {
     public void message(@DestinationVariable Long roomId,@Valid ChatReqDto message) throws MessagingException {
 
         //채팅 저장
-
         Chat chat = chatService.createChat(roomId, message);
 
         ChatResDto chatResDto = new ChatResDto(message,chat.getSendDate());
