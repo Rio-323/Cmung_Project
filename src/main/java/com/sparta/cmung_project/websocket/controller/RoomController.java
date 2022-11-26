@@ -2,8 +2,8 @@ package com.sparta.cmung_project.websocket.controller;
 
 import com.sparta.cmung_project.dto.GlobalResDto;
 import com.sparta.cmung_project.security.user.UserDetailsImpl;
-import com.sparta.cmung_project.websocket.domain.Chat;
-import com.sparta.cmung_project.websocket.domain.Room;
+import com.sparta.cmung_project.websocket.dto.ChatSelectReqDto;
+import com.sparta.cmung_project.websocket.dto.RoomReqDto;
 import com.sparta.cmung_project.websocket.service.ChatService;
 import com.sparta.cmung_project.websocket.service.RoomService;
 import lombok.RequiredArgsConstructor;
@@ -22,11 +22,11 @@ public class RoomController {
     private final RoomService roomService;
 
 
-    @GetMapping("/room/{roomId}")
-    public GlobalResDto<?> joinRoom(@PathVariable(required = false) Long roomId){
+    @GetMapping("/room")
+    public GlobalResDto<?> joinRoom(@RequestBody ChatSelectReqDto chatSelectReqDto,@AuthenticationPrincipal UserDetailsImpl userDetails){
 //        model.addAttribute("roomId", roomId);
 //        model.addAttribute("chatList", chatList);
-        return roomService.joinRoom(roomId);
+        return roomService.joinRoom(chatSelectReqDto, userDetails);
     }
 
 
@@ -38,7 +38,7 @@ public class RoomController {
                            @AuthenticationPrincipal UserDetailsImpl userDetails) {
         log.info(roomReqDto.getPostId().toString());
         log.info(roomReqDto.getPostTitle());
-        return roomService.createRoom(roomReqDto,userDetails);
+        return roomService.createRoom(roomReqDto, userDetails);
     }
 
     /**

@@ -2,10 +2,6 @@ package com.sparta.cmung_project.websocket.service;
 
 import com.sparta.cmung_project.exception.CustomException;
 import com.sparta.cmung_project.exception.ErrorCode;
-import com.sparta.cmung_project.model.Post;
-import com.sparta.cmung_project.repository.PostRepository;
-import com.sparta.cmung_project.security.user.UserDetailsImpl;
-import com.sparta.cmung_project.websocket.controller.RoomReqDto;
 import com.sparta.cmung_project.websocket.domain.Chat;
 import com.sparta.cmung_project.websocket.domain.Room;
 import com.sparta.cmung_project.websocket.dto.ChatReqDto;

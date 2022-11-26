@@ -2,10 +2,9 @@ package com.sparta.cmung_project.websocket.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.sparta.cmung_project.model.Member;
 import com.sparta.cmung_project.model.Post;
 import com.sparta.cmung_project.security.user.UserDetailsImpl;
-import com.sparta.cmung_project.websocket.controller.RoomReqDto;
+import com.sparta.cmung_project.websocket.dto.RoomReqDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -33,6 +32,9 @@ public class Room {
     @JoinColumn(name = "post_id")
     private Post post;
 
+
+
+
     private Long postUser;
     private String postNickname;
 
@@ -51,6 +53,7 @@ public class Room {
         this.joinNickname = userDetails.getMember().getNickname();
         this.joinUser = userDetails.getMember().getId();
         this.post = post;
+
     }
 
 }
