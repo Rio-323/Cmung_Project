@@ -32,10 +32,10 @@ public class PostController {
     }
 
     @GetMapping("/posts")
-    public GlobalResDto<?> allPost(){
+    public GlobalResDto<?> allPost(Pageable pageable){
         log.info("게시글 목록 조회");
         
-        return postService.allPost();
+        return postService.allPost(pageable);
     }
 
     @DeleteMapping("/posts/{postId}")

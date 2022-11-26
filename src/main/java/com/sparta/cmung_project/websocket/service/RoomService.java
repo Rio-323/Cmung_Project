@@ -43,9 +43,9 @@ public class RoomService {
         Post post = postRepository.findById(roomReqDto.getPostId()).orElseThrow(
                 ()-> new CustomException(ErrorCode.NotFoundPost)
         );
-        if(post.getMember().getId().equals(userDetails.getMember().getId())){
-            throw new CustomException(ErrorCode.SameUser);
-        }
+//        if(post.getMember().getId().equals(userDetails.getMember().getId())){
+//            throw new CustomException(ErrorCode.SameUser);
+//        }
         //이미 만든방이 있다면 room에 저장후 리턴
         Room room = roomRepository.findRoomByJoinUserAndPostUserAndPostId(userDetails.getMember().getId(), post.getMember().getId(), roomReqDto.getPostId())
                 //만들어진 방이 없다면 새로 만들어서 리턴
