@@ -22,7 +22,7 @@ public class RoomController {
     private final RoomService roomService;
 
 
-    @GetMapping("/room")
+    @PostMapping("/roomInfo")
     public GlobalResDto<?> joinRoom(@RequestBody ChatSelectReqDto chatSelectReqDto,@AuthenticationPrincipal UserDetailsImpl userDetails){
 //        model.addAttribute("roomId", roomId);
 //        model.addAttribute("chatList", chatList);
