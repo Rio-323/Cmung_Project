@@ -47,6 +47,12 @@ public class Member {
 
     @JsonManagedReference
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Review> reviews;
+
+    private Long rating;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Pet> pet;
 
     public Member(String nickname, String encodePassword, String email, String userImage, Long kakaoId) {
@@ -80,6 +86,11 @@ public class Member {
     }
 
     public void setEncodePassword(String encodePassword) { this.password = encodePassword; }
+
+    public void setRating(Long rating){
+        this.rating = rating;
+
+    }
 
 
 }

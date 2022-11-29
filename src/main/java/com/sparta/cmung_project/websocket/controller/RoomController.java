@@ -3,6 +3,7 @@ package com.sparta.cmung_project.websocket.controller;
 import com.sparta.cmung_project.dto.GlobalResDto;
 import com.sparta.cmung_project.security.user.UserDetailsImpl;
 import com.sparta.cmung_project.websocket.dto.ChatSelectReqDto;
+import com.sparta.cmung_project.websocket.dto.RatingReqDto;
 import com.sparta.cmung_project.websocket.dto.RoomReqDto;
 import com.sparta.cmung_project.websocket.service.ChatService;
 import com.sparta.cmung_project.websocket.service.RoomService;
@@ -50,5 +51,14 @@ public class RoomController {
     }
 
 
+    @PutMapping("/room/{postId}")
+    public GlobalResDto<String> stateUpdate(@PathVariable Long postId){
+        return roomService.stateUpdate(postId);
+    }
 
+    @PutMapping("/rating")
+    public GlobalResDto<?> rating(@RequestBody RatingReqDto ratingReqDto,
+                                  @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return roomService.rating(ratingReqDto,userDetails);
+    }
 }

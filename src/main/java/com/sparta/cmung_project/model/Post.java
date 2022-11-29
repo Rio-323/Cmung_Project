@@ -79,6 +79,9 @@ public class Post extends Timestamped {
         this.date = postRequestDto.getDate();
 
     }
+    public void stateUpdate(String state){
+        this.state = state;
+    }
 
     public PostResponseDto toDto() {
         // 이미지 객체 리스트를 문자열 리스트로 변환
