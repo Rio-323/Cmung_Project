@@ -47,6 +47,14 @@ public class Member {
 
     @JsonManagedReference
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Review> reviews;
+
+    private long rating;
+
+    private long sum;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Pet> pet;
 
     public Member(String nickname, String encodePassword, String email, String userImage, Long kakaoId) {
@@ -66,7 +74,7 @@ public class Member {
     }
 
     public MemberResponseDto toDto() {
-        return new MemberResponseDto(this.id, this.nickname, this.userImage, this.kakaoId, this.naverId);
+        return new MemberResponseDto(this.id, this.nickname, this.rating, this.userImage, this.kakaoId, this.naverId);
     }
 
     public Member(MemberReqDto memberReqDto) {
@@ -80,6 +88,14 @@ public class Member {
     }
 
     public void setEncodePassword(String encodePassword) { this.password = encodePassword; }
+
+    public void setRating(Long rating){
+        this.rating = rating;
+
+    }
+    public void setSum(Long sum){
+        this.sum = this.sum + sum;
+    }
 
 
 }

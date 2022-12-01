@@ -56,4 +56,10 @@ public class Room {
 
     }
 
+    public void stateUpdate(Post post){
+        this.state = post.getState();
+
+    }
+
+
 }
