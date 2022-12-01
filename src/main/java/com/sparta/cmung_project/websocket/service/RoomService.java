@@ -19,11 +19,13 @@ import com.sparta.cmung_project.websocket.repository.ChatRepository;
 import com.sparta.cmung_project.websocket.repository.ReviewRepository;
 import com.sparta.cmung_project.websocket.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class RoomService {
@@ -38,17 +40,22 @@ public class RoomService {
 
     public GlobalResDto<?> joinRoom(ChatSelectReqDto chatSelectReqDto, UserDetailsImpl userDetails) {
 
+        Post post = postRepository.findById(chatSelectReqDto.getPostId()).orElseThrow(
+                ()-> new CustomException(ErrorCode.NotFoundPost)
+        );
         if(chatSelectReqDto.getRoomId() == 0){
 
             Room room = roomRepository.findRoomByPostIdAndJoinNickname(chatSelectReqDto.getPostId(), userDetails.getMember().getNickname()).orElseThrow(
                     ()-> new CustomException(ErrorCode.NotfoundRoom)
             );
+            room.stateUpdate(post);
             RoomResponseDto roomResponseDto = new RoomResponseDto(room);
             return GlobalResDto.success(roomResponseDto, "기존방에 참여했습니다");
         }else{
             Room room = roomRepository.findById(chatSelectReqDto.getRoomId()).orElseThrow(
                     ()-> new CustomException(ErrorCode.NotfoundRoom)
             );
+            room.stateUpdate(post);
             RoomResponseDto roomResponseDto = new RoomResponseDto(room);
             return GlobalResDto.success(roomResponseDto, "기존방에 참여했습니다");
         }
@@ -106,18 +113,28 @@ public class RoomService {
     }
 
 
+    @Transactional
     public GlobalResDto<?> rating(RatingReqDto ratingReqDto,UserDetailsImpl userDetails){
         Member member = memberRepository.findById(ratingReqDto.getJoinUser()).orElseThrow(
                 ()-> new CustomException(ErrorCode.NotFoundMember)
         );
         Review review = new Review(member,ratingReqDto.getRating(),userDetails.getMember().getId());
+
         reviewRepository.save(review);
 
         Long count =  reviewRepository.countByMember_Id(ratingReqDto.getJoinUser());
 
-        Long score = (member.getRating() + ratingReqDto.getRating()) / count;
+        Long score = (member.getSum() + ratingReqDto.getRating()) / count;
         member.setRating(score);
+        member.setSum(ratingReqDto.getRating());
+        log.info(Long.toString(count));
+        log.info(Long.toString(score));
         return GlobalResDto.success(score, "작성완료");
+
+
+
+
+
     }
 
 }

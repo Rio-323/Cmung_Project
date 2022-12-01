@@ -49,7 +49,9 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Review> reviews;
 
-    private Long rating;
+    private long rating;
+
+    private long sum;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
@@ -72,7 +74,7 @@ public class Member {
     }
 
     public MemberResponseDto toDto() {
-        return new MemberResponseDto(this.id, this.nickname, this.userImage, this.kakaoId, this.naverId);
+        return new MemberResponseDto(this.id, this.nickname, this.rating, this.userImage, this.kakaoId, this.naverId);
     }
 
     public Member(MemberReqDto memberReqDto) {
@@ -90,6 +92,9 @@ public class Member {
     public void setRating(Long rating){
         this.rating = rating;
 
+    }
+    public void setSum(Long sum){
+        this.sum = this.sum + sum;
     }
 
 
