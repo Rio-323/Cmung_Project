@@ -61,7 +61,7 @@ public class WebSecurityConfig {
         configuration.addAllowedOrigin("https://www.cmung.com");
         configuration.addAllowedOrigin ( "https://cmung.com" );
         configuration.addAllowedOriginPattern("*");
-        configuration.setAllowedMethods(Arrays.asList("POST", "GET", "DELETE", "PUT"));
+        configuration.setAllowedMethods(Arrays.asList("POST", "GET", "DELETE", "PUT", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
         configuration.addExposedHeader("*");
