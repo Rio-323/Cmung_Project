@@ -16,6 +16,7 @@ import com.sparta.cmung_project.repository.MemberRepository;
 import com.sparta.cmung_project.repository.RefreshTokenRepository;
 import com.sparta.cmung_project.security.user.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -38,6 +39,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MemberService {
@@ -164,24 +166,29 @@ public class MemberService {
         this.passwordEncoder = passwordEncoder;
     }
     public GlobalResDto<Object> kakaoLogin(String code, HttpServletResponse response) throws JsonProcessingException {
+        log.info("1");
         // 1. "인가 코드"로 "액세스 토큰" 요청
         String accessToken = getAccessToken ( code );
 
+        log.info("2");
         // 2. "액세스 토큰"으로 "카카오 사용자 정보" 가져오기
         KakaoMemberInfoDto kakaoMemberInfo = getKakaoMemberInfo ( accessToken );
 
+        log.info("3");
         // 3. "카카오 사용자 정보"로 필요시 회원가입
         Member kakaoMember = registerKakaoMemberIfNeeded ( kakaoMemberInfo );
 
+        log.info("4");
         // 4. 강제 로그인 처리
         forceLogin(kakaoMember);
 
-
+        log.info("토큰 발급");
         // 토큰 발급
         TokenDto tokenDto = jwtUtil.createAllToken ( kakaoMemberInfo.getEmail () );
 
         Optional<RefreshToken> refreshToken = refreshTokenRepository.findByMemberEmail ( kakaoMemberInfo.getEmail () );
 
+        log.info("로그아웃한 후 로그인을 다시 하는가?");
         // 로그아웃한 후 로그인을 다시 하는가?
         RefreshToken refreshToken1;
         if(refreshToken.isPresent ()) {
@@ -191,18 +198,22 @@ public class MemberService {
         }
         refreshTokenRepository.save ( refreshToken1 );
 
+        log.info("토큰을 header에 넣어서 클라이언트에게 전달하기");
         //토큰을 header에 넣어서 클라이언트에게 전달하기
         setHeader ( response, tokenDto );
 
         LoginResDto loginResDto = new LoginResDto ( kakaoMember, kakaoMember.getUserImage () );
 
+        log.info("return문");
         return GlobalResDto.success ( loginResDto, kakaoMember.getNickname () + "님 반갑습니다." );
     }
     private String getAccessToken(String code) throws JsonProcessingException {
+        log.info("header 생성");
         // HTTP Header 생성
         HttpHeaders headers = new HttpHeaders ();
         headers.add ( "Content-type", "application/x-www-form-urlencoded;charset=utf-8" );
 
+        log.info("body 생성");
         // HTTP Body 생성
         MultiValueMap<String, String> body = new LinkedMultiValueMap<> ();
         body.add("grant_type", "authorization_code");
@@ -210,10 +221,12 @@ public class MemberService {
         body.add("redirect_uri", "https://cmung.com/auth/member/kakao/callback");
         body.add("code", code);
 
+        log.info("http 요청 보내기");
         // HTTP 요청 보내기
         HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest = new HttpEntity<> ( body, headers );
         RestTemplate rt = new RestTemplate ();
 
+        log.info("ResponseEntity");
         ResponseEntity<String> response = rt.exchange (
                 "https://kauth.kakao.com/oauth/token",
                 HttpMethod.POST,
@@ -221,10 +234,13 @@ public class MemberService {
                 String.class
         );
 
+        log.info("http 응답");
         // HTTP 응답 (JSON) -> 액세스 토큰 파싱
         String responseBody = response.getBody ();
         ObjectMapper objectMapper = new ObjectMapper ();
         JsonNode jsonNode = objectMapper.readTree ( responseBody );
+
+        log.info("return문");
         return jsonNode.get ( "access_token" ).asText ();
     }
     private KakaoMemberInfoDto getKakaoMemberInfo(String accessToken) throws JsonProcessingException {
