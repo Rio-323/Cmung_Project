@@ -56,13 +56,17 @@ public class WebSecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOriginPatterns( Arrays.asList("*") );
-        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
-        configuration.setAllowedMethods(Arrays.asList("*", "POST", "GET", "DELETE", "PUT", "PATCH", "OPTIONS"));  // 프론트에서 보내는 CRUD 허용
-        configuration.setAllowedHeaders(Arrays.asList("*", "Access_Token")); // 프론트에서 보내는 모든 해더 허용
+        configuration.setAllowedOriginPatterns(Arrays.asList("*"));
+        configuration.addAllowedOrigin("http://localhost:3000");
+        configuration.addAllowedOrigin("https://www.cmung.com");
+        configuration.addAllowedOrigin ( "https://cmung.com" );
+        configuration.addAllowedOriginPattern("*");
+        configuration.setAllowedMethods(Arrays.asList("POST", "GET", "DELETE", "PUT"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
-        configuration.addExposedHeader ( "*" );
+        configuration.addExposedHeader("*");
         configuration.addExposedHeader("Access_Token"); // Axios 에서는 이런식으로 Access_token으로 지정해줘야 보임 *사용불가
+
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
