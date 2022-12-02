@@ -48,11 +48,14 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
     private final RefreshTokenRepository refreshTokenRepository;
-
     @Value ( "${kakao.rest.api}" )
     private String kakaoRestApi;
 
+    @Value ( "${naver.client.id}" )
+    private String naverClientId;
 
+    @Value ( "${naver.client.secret}" )
+    private String naverClientSecret;
     List<String> badWords = Arrays.asList ( "18년","18놈","18새끼","ㄱㅐㅅㅐㄲl","ㄱㅐㅈㅏ","가슴만져","가슴빨아","가슴빨어","가슴조물락","가슴주물럭","가슴쪼물딱","가슴쪼물락","가슴핧아","가슴핧어","강간","개가튼년","개가튼뇬","개같은년","개걸레","개고치",
             "개너미","개넘","개년","개놈","개늠","개똥","개떵","개떡","개라슥","개보지","개부달","개부랄","개불랄","개붕알","개새","개세","개쓰래기","개쓰레기","개씁년","개씁블","개씁자지","개씨발","개씨블","개자식","개자지","개잡년","개젓가튼넘","개좆","개지랄",
             "개후라년","개후라들놈","개후라새끼","걔잡년","거시기","걸래년","걸레같은년","걸레년","걸레핀년","게부럴","게세끼","게이","게새끼","게늠","게자식","게지랄놈","고환","공지","공지사항","귀두","깨쌔끼","난자마셔","난자먹어","난자핧아","내꺼빨아","내꺼핧아",
@@ -364,8 +367,8 @@ public class MemberService {
         // HTTP Body 생성
         MultiValueMap<String, String> body = new LinkedMultiValueMap<> ();
         body.add ( "grant_type", "authorization_code" );
-        body.add ( "client_id", "${ naver.client.id }");
-        body.add ( "client_secret", "${ naver.client.secret }" );
+        body.add ( "client_id", naverClientId );
+        body.add ( "client_secret", naverClientSecret );
         body.add("code", code);
         body.add("state", state);
 
