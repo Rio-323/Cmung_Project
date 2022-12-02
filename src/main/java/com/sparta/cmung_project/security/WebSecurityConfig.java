@@ -57,7 +57,7 @@ public class WebSecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowedOriginPatterns( Arrays.asList("*") );
-        configuration.setAllowedOrigins(List.of("http://localhost:3000", "https://www.크멍.com", "https://크멍.com"));
+        configuration.setAllowedOrigins(List.of("http://localhost:3000", "https://www.xn--922bn81b.com", "https://xn--922bn81b.com"));
         configuration.setAllowedMethods(Arrays.asList("*", "POST", "GET", "DELETE", "PUT", "PATCH", "OPTIONS"));  // 프론트에서 보내는 CRUD 허용
         configuration.setAllowedHeaders(Arrays.asList("*", "Access_Token")); // 프론트에서 보내는 모든 해더 허용
         configuration.setAllowCredentials(true);
