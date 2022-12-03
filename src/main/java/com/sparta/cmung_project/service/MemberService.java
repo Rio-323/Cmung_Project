@@ -456,7 +456,7 @@ public class MemberService {
             String sb = "grant_type=authorization_code" +
                     "&client_id=" + naverClientId +
                     "&client_secret=" + naverClientSecret +
-                    "&redirect_uri= https://xn--922bn81b.com//auth/member/naver/callback" +
+                    "&redirect_uri= https://xn--922bn81b.com/auth/member/naver/callback" +
                     "&code=" + code +
                     "&state=" + state;
             bw.write(sb);
