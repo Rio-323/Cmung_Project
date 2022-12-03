@@ -363,12 +363,12 @@ public class MemberService {
 
         // HTTP Body 생성
         MultiValueMap<String, String> body = new LinkedMultiValueMap<> ();
-        body.add ( "grant_type", "authorization_code" );
-        body.add ( "client_id", naverClientId );
-        body.add ( "client_secret", naverClientSecret );
-        body.add("redirect_uri", "https://cmung.com/auth/member/naver/callback");
-        body.add("code", code);
-        body.add("state", state);
+        body.add ( "grant_type=", "authorization_code" );
+        body.add ( "client_id=", naverClientId );
+        body.add ( "client_secret=", naverClientSecret );
+        body.add("redirect_uri=", "https://cmung.com/auth/member/naver/callback");
+        body.add("code=", code);
+        body.add("state=", state);
 
         // HTTP 요청 보내기
         HttpEntity<MultiValueMap<String, String>> naverTokenRequest = new HttpEntity<> ( body, headers );
