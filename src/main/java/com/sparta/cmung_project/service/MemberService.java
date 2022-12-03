@@ -238,7 +238,7 @@ public class MemberService {
         MultiValueMap<String, String> body = new LinkedMultiValueMap<> ();
         body.add ( "grant_type", "authorization_code" );
         body.add ( "client_id", kakaoRestApi ); // REST API키
-        body.add ( "redirect_uri", "https://cmung.com/auth/member/kakao/callback" );
+        body.add ( "redirect_uri", "https://크멍.com/auth/member/kakao/callback" );
         body.add ( "code", code );
 
         log.info ( "http 요청 보내기" );
@@ -456,7 +456,7 @@ public class MemberService {
             String sb = "grant_type=authorization_code" +
                     "&client_id=" + naverClientId +
                     "&client_secret=" + naverClientSecret +
-                    "&redirect_uri= https://cmung.com/auth/member/naver/callback" +
+                    "&redirect_uri= https://xn--922bn81b.com//auth/member/naver/callback" +
                     "&code=" + code +
                     "&state=" + state;
             bw.write(sb);
