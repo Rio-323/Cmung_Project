@@ -366,6 +366,7 @@ public class MemberService {
         body.add ( "grant_type", "authorization_code" );
         body.add ( "client_id", naverClientId );
         body.add ( "client_secret", naverClientSecret );
+        body.add("redirect_uri", "https://cmung.com/auth/member/naver/callback");
         body.add("code", code);
         body.add("state", state);
 
