@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 
 @Slf4j
 @RestController
@@ -63,10 +64,10 @@ public class MemberController {
     }
 
     @GetMapping("/member/naver/callback") // 나중에 프론트랑 맞추기
-    public GlobalResDto<?> naverLogin(@RequestParam String code, @RequestParam String state, HttpServletResponse response) throws JsonProcessingException {
+    public GlobalResDto<?> naverLogin(@RequestParam String code, @RequestParam String state, HttpServletResponse response) throws IOException {
         log.info("네이버 로그인");
 
         // authorizedCode: 네이버 서버로부터 받은 인가 코드
-        return memberService.naverLogin(code, state, response);
+        return memberService.naverLogin ( code, state, response );
     }
 }
