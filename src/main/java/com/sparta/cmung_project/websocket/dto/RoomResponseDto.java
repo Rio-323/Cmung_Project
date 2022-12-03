@@ -16,12 +16,11 @@ public class RoomResponseDto {
 
 
     private Long postId;
+
+    private Post post;
     private Long roomId;
 
     private String title;
-
-    private String postImg;
-
     private int price;
 
     private String state;
@@ -39,6 +38,7 @@ public class RoomResponseDto {
     public RoomResponseDto(Room room){
 
         this.postId = room.getPost().getId();
+        this.post = room.getPost();
         this.roomId = room.getId();
         this.title = room.getTitle();
 //        this.postImg = room.getPost().getImage().get(0).getImage();
