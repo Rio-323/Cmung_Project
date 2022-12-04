@@ -427,7 +427,7 @@ public class MemberService {
         String email = String.valueOf(userInfoElement.getAsJsonObject().get("response")
                 .getAsJsonObject().get("email"));
         String nickName = String.valueOf(userInfoElement.getAsJsonObject().get("response")
-                .getAsJsonObject().get("nickname"));
+                .getAsJsonObject().get("name"));
         String userImage = String.valueOf(userInfoElement.getAsJsonObject().get("response")
                 .getAsJsonObject().get("profile_image"));
 
