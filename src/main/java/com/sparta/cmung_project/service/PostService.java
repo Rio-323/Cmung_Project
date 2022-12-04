@@ -203,13 +203,13 @@ public class PostService {
     }
 
     // 게시글 검색
-    public GlobalResDto<?> searchPost(String searchKeyword) {
+    public GlobalResDto<?> searchPost(String searchKeyword, Pageable pageable) {
 
         if(searchKeyword.length () < 1) {
             throw new CustomException ( ErrorCode.SearchKeywordLengthError );
         }
 
-        List<Post> postList = postRepository.findAllByTitleContainingOrContentContainingOrLocalContainingOrderByCreatedAtDesc ( searchKeyword, searchKeyword, searchKeyword );
+        List<Post> postList = postRepository.findAllByTitleContainingOrContentContainingOrLocalContainingOrderByCreatedAtDesc ( searchKeyword, searchKeyword, searchKeyword, pageable );
 
         List<GetAllPostDto> getAllPostDtoList = getAllPost ( postList );
 
