@@ -4,6 +4,7 @@ import com.sparta.cmung_project.dto.GlobalResDto;
 import com.sparta.cmung_project.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,9 +18,10 @@ public class SearchPostController {
     private final PostService postService;
 
     @GetMapping
-    public GlobalResDto<?> searchPost(@RequestParam(name = "content") String content) {
+    public GlobalResDto<?> searchPost(@RequestParam(name = "content") String content,
+                                      Pageable pageable) {
         log.info("게시글 검색");
         
-        return postService.searchPost ( content );
+        return postService.searchPost ( content, pageable );
     }
 }
