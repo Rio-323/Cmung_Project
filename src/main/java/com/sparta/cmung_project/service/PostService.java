@@ -240,8 +240,8 @@ public class PostService {
     }
 
     // 게시글 필터 조회
-    public GlobalResDto<?> filterPost(String name) {
-        List<Post> posts = postRepository.findAllByCategory_NameOrderByCreatedAtDesc(name);
+    public GlobalResDto<?> filterPost(String name, Pageable pageable) {
+        List<Post> posts = postRepository.findAllByCategory_NameOrderByCreatedAtDesc(name, pageable);
 
         List<GetAllPostDto> getAllPostDtoList = getAllPost ( posts );
 
