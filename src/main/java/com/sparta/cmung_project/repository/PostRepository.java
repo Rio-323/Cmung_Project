@@ -12,11 +12,11 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     Optional<Post> findById(Long id);
     List<Post> findAllByTitleContainingOrContentContainingOrLocalContainingOrderByCreatedAtDesc(
             String searchKeyword1, String searchKeyword2,
-            String searchKeyword3, Pageable pageable);
+            String searchKeyword3);
     Post findByIdAndMember(Long id, Member member);
     List<Post> findAllByOrderByCreatedAtDesc(Pageable pageable);
     List<Post> findAllByMemberOrderByCreatedAtDesc(Member member);
     List<Post> findAllByMember(Member member);
     List<Post> findAll();
-    List<Post> findAllByCategory_NameOrderByCreatedAtDesc(String name, Pageable pageable);
+    List<Post> findAllByCategory_NameOrderByCreatedAtDesc(String name);
 }

@@ -18,10 +18,9 @@ public class SearchPostController {
     private final PostService postService;
 
     @GetMapping
-    public GlobalResDto<?> searchPost(@RequestParam(name = "content") String content,
-                                      Pageable pageable) {
+    public GlobalResDto<?> searchPost(@RequestParam(name = "content") String content) {
         log.info("게시글 검색");
         
-        return postService.searchPost ( content, pageable );
+        return postService.searchPost ( content );
     }
 }
