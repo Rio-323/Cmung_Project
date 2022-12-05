@@ -100,7 +100,7 @@ public class Post extends Timestamped {
 
 
         // DTO 반환
-        return new PostResponseDto(this.id, this.title, this.content, this.price,
+        return new PostResponseDto(this.id, this.title, this.content, member.getRating(), member.getUserImage(), this.price,
                 this.category.getName(), this.state, this.local, this.date, imageList,
                 dateString, this.nickname);
     }

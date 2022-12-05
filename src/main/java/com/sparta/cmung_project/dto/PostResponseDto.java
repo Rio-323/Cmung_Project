@@ -19,6 +19,10 @@ public class PostResponseDto {
     private String title;
     private String content;
 
+    private  Long rating;
+
+    private String userImg;
+
     private String nickname;
     private int price;
     private String categoryName;
@@ -34,6 +38,8 @@ public class PostResponseDto {
         this.id = post.getId();
         this.title = post.getTitle();
         this.content = post.getContent();
+        this.rating = post.getMember().getRating();
+        this.userImg = post.getMember().getUserImage();
         this.nickname = post.getNickname();
         this.price = post.getPrice();
         this.categoryName = post.getCategory().getName();
@@ -45,12 +51,14 @@ public class PostResponseDto {
         this.createdAt = Time.calculateTime(date);
     }
 
-    public PostResponseDto(Long id, String title, String content, int price, String categoryName,
+    public PostResponseDto(Long id, String title, String content,Long rating,String userImg, int price, String categoryName,
                            String state, String local, String date, List<String> imageList,
                            String dateString, String nickname) {
         this.id = id;
         this.title = title;
         this.content = content;
+        this.rating = rating;
+        this.userImg = userImg;
         this.price = price;
         this.categoryName = categoryName;
         this.imgs = imageList;
