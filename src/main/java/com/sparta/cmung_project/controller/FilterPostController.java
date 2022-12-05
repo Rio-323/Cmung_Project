@@ -22,6 +22,6 @@ public class FilterPostController {
                                       Pageable pageable) {
         log.info("게시글 필터");
         
-        return postService.filterPost ( category, pageable );
+        return postService.filterPost ( category );
     }
 }
