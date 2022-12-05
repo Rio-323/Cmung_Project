@@ -89,7 +89,6 @@ public class MemberService {
 
         return GlobalResDto.success ( null, "사용 가능한 아이디 입니다." );
     }
-
     public GlobalResDto<Object> nicknameCheck(NicknameCheckDto nicknameCheckDto) {
 
         if (null != isPresentNickname ( nicknameCheckDto.getNickname () )) {
@@ -106,7 +105,6 @@ public class MemberService {
 
         return GlobalResDto.success ( null, "사용가능한 Nickname 입니다." );
     }
-
     @Transactional
     public GlobalResDto<Object> signup(MemberReqDto memberReqDto) {
         // email 중복검사
@@ -131,7 +129,6 @@ public class MemberService {
         memberRepository.save ( member );
         return GlobalResDto.success ( null, "회원가입이 완료되었습니다." );
     }
-
     @Transactional
     public GlobalResDto<?> login(LoginReqDto loginReqDto, HttpServletResponse response) {
         Member member = memberRepository.findByEmail ( loginReqDto.getEmail () ).orElseThrow (
@@ -158,24 +155,20 @@ public class MemberService {
         LoginResDto loginResDto = new LoginResDto ( member, member.getUserImage () );
         return GlobalResDto.success ( loginResDto, member.getNickname () + "님 반갑습니다." );
     }
-
     @Transactional(readOnly = true)
     public Member isPresentMember(String email) {
         Optional<Member> member = memberRepository.findByEmail ( email );
         return member.orElse ( null );
     }
-
     @Transactional(readOnly = true)
     public Member isPresentNickname(String nickname) {
         Optional<Member> member = memberRepository.findByNickname ( nickname );
         return member.orElse ( null );
     }
-
     private void setHeader(HttpServletResponse response, TokenDto tokenDto) {
         response.addHeader ( JwtUtil.ACCESS_TOKEN, tokenDto.getAccessToken () );
         response.addHeader ( JwtUtil.REFRESH_TOKEN, tokenDto.getRefreshToken () );
     }
-
     @Autowired
     public MemberService(RefreshTokenRepository refreshTokenRepository, JwtUtil jwtUtil, MemberRepository memberRepository, PasswordEncoder passwordEncoder) {
         this.refreshTokenRepository = refreshTokenRepository;
@@ -183,7 +176,6 @@ public class MemberService {
         this.memberRepository = memberRepository;
         this.passwordEncoder = passwordEncoder;
     }
-
     public GlobalResDto<Object> kakaoLogin(String code, HttpServletResponse response) throws JsonProcessingException {
         log.info ( "1" );
         // 1. "인가 코드"로 "액세스 토큰" 요청
@@ -226,7 +218,6 @@ public class MemberService {
         log.info ( "return문" );
         return GlobalResDto.success ( loginResDto, kakaoMember.getNickname () + "님 반갑습니다." );
     }
-
     private String getAccessToken(String code) throws JsonProcessingException {
         log.info ( "header 생성" );
         // HTTP Header 생성
@@ -263,7 +254,6 @@ public class MemberService {
         log.info ( "return문" );
         return jsonNode.get ( "access_token" ).asText ();
     }
-
     private KakaoMemberInfoDto getKakaoMemberInfo(String accessToken) throws JsonProcessingException {
         // HTTP Header 생성
         HttpHeaders headers = new HttpHeaders ();
@@ -292,7 +282,6 @@ public class MemberService {
 
         return new KakaoMemberInfoDto ( id, nickname, email, userImage );
     }
-
     private Member registerKakaoMemberIfNeeded(KakaoMemberInfoDto kakaoMemberInfo) {
         // DB 에 중복된 Kakao Id 가 있는지 확인
         Long kakaoId = kakaoMemberInfo.getId ();
@@ -333,17 +322,15 @@ public class MemberService {
 
         return kakaoMember;
     }
-
     private void forceLogin(Member kakaoMember) {
         UserDetails userDetails = new UserDetailsImpl ( kakaoMember );
         Authentication authentication = new UsernamePasswordAuthenticationToken ( userDetails, null, userDetails.getAuthorities () );
         SecurityContextHolder.getContext ().setAuthentication ( authentication );
     }
-
     public GlobalResDto<Object> naverLogin(String code, String state, HttpServletResponse response) throws IOException {
         NaverMemberInfoDto naverMemberInfoDto = getNaverMemberInfo ( code, state );
 
-        String naverId = naverMemberInfoDto.getNaverid ();
+        String naverId = naverMemberInfoDto.getNaverId ();
         Member naverMember = memberRepository.findByNaverId ( naverId ).orElse ( null );
 
         if (naverMember == null) {
@@ -374,7 +361,7 @@ public class MemberService {
                 // 프로필 사진 가져오기
                 String userImage = naverMemberInfoDto.getUserImage ();
 
-                naverMember = new Member ( nickname, encodePassword, email, userImage, naverId );
+                naverMember = new Member ( email, nickname, password, userImage, naverId );
             }
 
             memberRepository.save ( naverMember );
@@ -406,7 +393,6 @@ public class MemberService {
 
         return GlobalResDto.success ( loginResDto, naverMember.getNickname () + "님 반갑습니다." );
     }
-
     // 네이버에 요청해서 회원정보 받는 메소드
     public NaverMemberInfoDto getNaverMemberInfo(String code, String state) throws IOException {
 
@@ -426,20 +412,19 @@ public class MemberService {
                 .getAsJsonObject().get("id"));
         String email = String.valueOf(userInfoElement.getAsJsonObject().get("response")
                 .getAsJsonObject().get("email"));
-        String nickName = String.valueOf(userInfoElement.getAsJsonObject().get("response")
-                .getAsJsonObject().get("name"));
+        String nickname = String.valueOf(userInfoElement.getAsJsonObject().get("response")
+                .getAsJsonObject().get("nickname"));
         String userImage = String.valueOf(userInfoElement.getAsJsonObject().get("response")
                 .getAsJsonObject().get("profile_image"));
 
 
         naverId = naverId.substring(1, naverId.length()-1);
         email = email.substring(1, email.length()-1);
-        nickName = nickName.substring(1, nickName.length()-1);
+        nickname = nickname.substring(1, nickname.length()-1);
         userImage = userImage.substring(1, userImage.length()-1);
 
-        return new NaverMemberInfoDto ( naverId, nickName, email, userImage, access_Token, refresh_token );
+        return new NaverMemberInfoDto ( naverId, nickname, email, userImage, access_Token, refresh_token );
     }
-
     // 네이버에 요청해서 데이터 전달 받는 메소드
     public JsonElement jsonElement(String reqUrl, String token, String code, String state) throws IOException {
 
@@ -479,7 +464,6 @@ public class MemberService {
         // Gson 라이브러리에 포함된 클래스로 JSON 파싱
         return JsonParser.parseString(result.toString());
     }
-
     private void naverForceLogin(Member naverMember) {
         UserDetails userDetails = new UserDetailsImpl(naverMember);
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

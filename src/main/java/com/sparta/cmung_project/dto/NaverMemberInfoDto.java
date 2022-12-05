@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class NaverMemberInfoDto {
 
-    private String naverid;
+    private String naverId;
     private String nickname;
     private String email;
     private String userImage;
@@ -17,8 +17,8 @@ public class NaverMemberInfoDto {
     private String refreshToken;
 
     @Builder
-    public NaverMemberInfoDto(String naverid, String nickname, String email, String userImage, String accessToken, String refreshToken) {
-        this.naverid = naverid;
+    public NaverMemberInfoDto(String naverId, String nickname, String email, String userImage, String accessToken, String refreshToken) {
+        this.naverId = naverId;
         this.nickname = nickname;
         this.email = email;
         this.userImage = userImage;
