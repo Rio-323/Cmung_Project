@@ -10,7 +10,6 @@ import com.sparta.cmung_project.model.Review;
 import com.sparta.cmung_project.repository.MemberRepository;
 import com.sparta.cmung_project.repository.PostRepository;
 import com.sparta.cmung_project.security.user.UserDetailsImpl;
-import com.sparta.cmung_project.websocket.dto.ChatSelectReqDto;
 import com.sparta.cmung_project.websocket.dto.RatingReqDto;
 import com.sparta.cmung_project.websocket.dto.RoomReqDto;
 import com.sparta.cmung_project.websocket.domain.Room;
@@ -38,28 +37,14 @@ public class RoomService {
     private final ReviewRepository reviewRepository;
 
 
-    public GlobalResDto<?> joinRoom(ChatSelectReqDto chatSelectReqDto, UserDetailsImpl userDetails) {
+    public GlobalResDto<?> joinRoom( Long roomId, UserDetailsImpl userDetails) {
 
-        Post post = postRepository.findById(chatSelectReqDto.getPostId()).orElseThrow(
-                ()-> new CustomException(ErrorCode.NotFoundPost)
+        Room room = roomRepository.findById(roomId).orElseThrow(
+                ()-> new CustomException(ErrorCode.NotfoundRoom)
         );
-        if(chatSelectReqDto.getRoomId() == 0){
 
-            Room room = roomRepository.findRoomByPostIdAndJoinNickname(chatSelectReqDto.getPostId(), userDetails.getMember().getNickname()).orElseThrow(
-                    ()-> new CustomException(ErrorCode.NotfoundRoom)
-            );
-            room.stateUpdate(post);
-            RoomResponseDto roomResponseDto = new RoomResponseDto(room);
-            return GlobalResDto.success(roomResponseDto, "기존방에 참여했습니다");
-        }else{
-            Room room = roomRepository.findById(chatSelectReqDto.getRoomId()).orElseThrow(
-                    ()-> new CustomException(ErrorCode.NotfoundRoom)
-            );
-            room.stateUpdate(post);
-            RoomResponseDto roomResponseDto = new RoomResponseDto(room);
-            return GlobalResDto.success(roomResponseDto, "기존방에 참여했습니다");
-        }
-
+        RoomResponseDto roomResponseDto = new RoomResponseDto(room);
+        return GlobalResDto.success(roomResponseDto,room.getId()+"번방");
     }
 
     //방 만들기

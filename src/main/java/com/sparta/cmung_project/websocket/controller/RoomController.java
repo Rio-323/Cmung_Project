@@ -2,7 +2,6 @@ package com.sparta.cmung_project.websocket.controller;
 
 import com.sparta.cmung_project.dto.GlobalResDto;
 import com.sparta.cmung_project.security.user.UserDetailsImpl;
-import com.sparta.cmung_project.websocket.dto.ChatSelectReqDto;
 import com.sparta.cmung_project.websocket.dto.RatingReqDto;
 import com.sparta.cmung_project.websocket.dto.RoomReqDto;
 import com.sparta.cmung_project.websocket.service.ChatService;
@@ -23,11 +22,11 @@ public class RoomController {
     private final RoomService roomService;
 
 
-    @PostMapping("/roomInfo")
-    public GlobalResDto<?> joinRoom(@RequestBody ChatSelectReqDto chatSelectReqDto,@AuthenticationPrincipal UserDetailsImpl userDetails){
+    @GetMapping("/roomInfo/{roomId}")
+    public GlobalResDto<?> joinRoom(@PathVariable Long roomId,@AuthenticationPrincipal UserDetailsImpl userDetails){
 //        model.addAttribute("roomId", roomId);
 //        model.addAttribute("chatList", chatList);
-        return roomService.joinRoom(chatSelectReqDto, userDetails);
+        return roomService.joinRoom(roomId, userDetails);
     }
 
 
