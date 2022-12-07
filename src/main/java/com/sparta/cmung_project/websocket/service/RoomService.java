@@ -39,9 +39,14 @@ public class RoomService {
 
     public GlobalResDto<?> joinRoom( Long roomId, UserDetailsImpl userDetails) {
 
+
         Room room = roomRepository.findById(roomId).orElseThrow(
                 ()-> new CustomException(ErrorCode.NotfoundRoom)
         );
+        Post post = postRepository.findById(room.getPost().getId()).orElseThrow(
+                ()-> new CustomException(ErrorCode.NotFoundPost)
+        );
+        room.stateUpdate(post);
 
         RoomResponseDto roomResponseDto = new RoomResponseDto(room);
         return GlobalResDto.success(roomResponseDto,room.getId()+"번방");
@@ -56,9 +61,9 @@ public class RoomService {
 //            throw new CustomException(ErrorCode.SameUser);
 //        }
         //이미 만든방이 있다면 room에 저장후 리턴
-        Room room = roomRepository.findRoomByJoinUserAndPostUserAndPostId(userDetails.getMember().getId(), post.getMember().getId(), roomReqDto.getPostId())
+        Room room = roomRepository.findRoomByJoinUser_IdAndPostUser_IdAndPostId(userDetails.getMember().getId(), post.getMember().getId(), roomReqDto.getPostId())
                 //만들어진 방이 없다면 새로 만들어서 리턴
-                .orElse(new Room(post.getMember().getId(),post.getNickname(), roomReqDto,userDetails, post));
+                .orElse(new Room(post.getMember(), userDetails.getMember(), roomReqDto, post));
 
         roomRepository.save(room);
         RoomResponseDto roomResponseDto = new RoomResponseDto(room);
@@ -66,13 +71,14 @@ public class RoomService {
     }
 
     public GlobalResDto<?> roomList(UserDetailsImpl userDetails){
-        List<Room> roomList = roomRepository.findAllByJoinUserOrPostUserOrderByIdDesc(userDetails.getMember().getId(),userDetails.getMember().getId());
-
+        List<Room> roomList = roomRepository.findAllByJoinUser_IdOrPostUser_IdOrderByIdDesc(userDetails.getMember().getId(),userDetails.getMember().getId());
+        log.info(String.valueOf(roomList.size()));
         List<RoomResponseDto> roomResponseDtos = new ArrayList<>();
 
         for(Room room : roomList ){
             roomResponseDtos.add(new RoomResponseDto(room));
         }
+        log.info(String.valueOf(roomResponseDtos.size()));
 
         if(roomList.isEmpty()){
             return GlobalResDto.fail("채팅 내역이 없습니다");

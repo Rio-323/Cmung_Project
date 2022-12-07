@@ -1,6 +1,8 @@
 package com.sparta.cmung_project.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.sparta.cmung_project.model.Member;
+import com.sparta.cmung_project.websocket.domain.Room;
 import lombok.Getter;
 import lombok.Setter;
 
