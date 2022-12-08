@@ -46,7 +46,7 @@ public class RoomResponseDto {
         this.postId = room.getPost().getId();
         this.roomId = room.getId();
         this.title = room.getTitle();
-        this.postImg = room.getPost().getImage().get(0).getImage();
+//        this.postImg = room.getPost().getImage();
         this.price = room.getPost().getPrice();
         this.chatList = room.getChats();
         this.state = room.getState();

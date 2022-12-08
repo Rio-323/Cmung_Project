@@ -72,13 +72,11 @@ public class RoomService {
 
     public GlobalResDto<?> roomList(UserDetailsImpl userDetails){
         List<Room> roomList = roomRepository.findAllByJoinUser_IdOrPostUser_IdOrderByIdDesc(userDetails.getMember().getId(),userDetails.getMember().getId());
-        log.info(String.valueOf(roomList.size()));
         List<RoomResponseDto> roomResponseDtos = new ArrayList<>();
 
         for(Room room : roomList ){
             roomResponseDtos.add(new RoomResponseDto(room));
         }
-        log.info(String.valueOf(roomResponseDtos.size()));
 
         if(roomList.isEmpty()){
             return GlobalResDto.fail("채팅 내역이 없습니다");
