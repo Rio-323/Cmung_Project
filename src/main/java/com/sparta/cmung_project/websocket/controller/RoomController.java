@@ -22,17 +22,14 @@ public class RoomController {
     private final RoomService roomService;
 
 
+    
     @GetMapping("/roomInfo/{roomId}")
     public GlobalResDto<?> joinRoom(@PathVariable Long roomId,@AuthenticationPrincipal UserDetailsImpl userDetails){
-//        model.addAttribute("roomId", roomId);
-//        model.addAttribute("chatList", chatList);
         return roomService.joinRoom(roomId, userDetails);
     }
 
 
-    /**
-     * 채팅방 등록
-     */
+  
     @PostMapping("/room")
     public GlobalResDto<?> createRoom(@RequestBody RoomReqDto roomReqDto,
                            @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -41,9 +38,7 @@ public class RoomController {
         return roomService.createRoom(roomReqDto, userDetails);
     }
 
-    /**
-     * 채팅방 리스트 보기
-     */
+   
     @GetMapping("/roomList")
     public GlobalResDto<?> roomList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return roomService.roomList(userDetails);
