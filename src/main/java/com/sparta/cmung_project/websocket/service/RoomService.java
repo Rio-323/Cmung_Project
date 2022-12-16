@@ -37,6 +37,7 @@ public class RoomService {
     private final ReviewRepository reviewRepository;
 
 
+    //방 들어가기
     public GlobalResDto<?> joinRoom( Long roomId, UserDetailsImpl userDetails) {
 
 
@@ -70,6 +71,7 @@ public class RoomService {
         return GlobalResDto.success(roomResponseDto,null);
     }
 
+    //채팅 리스트
     public GlobalResDto<?> roomList(UserDetailsImpl userDetails){
         List<Room> roomList = roomRepository.findAllByJoinUser_IdOrPostUser_IdOrderByIdDesc(userDetails.getMember().getId(),userDetails.getMember().getId());
         List<RoomResponseDto> roomResponseDtos = new ArrayList<>();
@@ -97,11 +99,12 @@ public class RoomService {
             return GlobalResDto.success(null,"완료");
         }else{
             post.stateUpdate("산책중");
-            return GlobalResDto.success(null,"진행중");
+            return GlobalResDto.success(null,"산책중");
         }
     }
 
 
+    //별점작성
     @Transactional
     public GlobalResDto<?> rating(RatingReqDto ratingReqDto,UserDetailsImpl userDetails){
         Member member = memberRepository.findById(ratingReqDto.getJoinUser()).orElseThrow(
