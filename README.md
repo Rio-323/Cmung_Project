@@ -19,88 +19,7 @@
 
 <br/>
 
-## 🎯 주요 기능
-<!-- ![]() -->
-|소셜로그인|무한스크롤|유저페이지|
-|------|---|---|
-|시연1|시연2|시연3|
-<br/>
 
-|채팅목록|1:1 채팅방|만족도 평가|
-|------|---|---|
-|시연1|시연2|시연3|
-<br/>
-
-
-## 📢 개발 포인트
-<!-- ![]() -->
-- s
-- s
-- s 
-
-## 🛠️ 기술 스택
-<!-- ![]() -->
-#### 🖥️ Front-End
-
-<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=black"/></a> <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black"/></a> <img src="https://img.shields.io/badge/Create%20React%20App-09D3AC?style=for-the-badge&logo=Create%20React%20App&logoColor=white"/></a> <img src="https://img.shields.io/badge/React%20Router-CA4245?style=for-the-badge&logo=React%20Router&logoColor=white"/></a> <img src="https://img.shields.io/badge/React%20Redux-0088CC?style=for-the-badge&logo=Redux&logoColor=white"/></a> <img src="https://img.shields.io/badge/Redux-764ABC?style=for-the-badge&logo=Redux&logoColor=white"/></a> <img src="https://img.shields.io/badge/Redux.js%20Toolkit-4000BF?style=for-the-badge&logo=Redux&logoColor=white"/></a> <img src="https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=Axios&logoColor=white"/></a>  
-<img src="https://img.shields.io/badge/styled%20components-DB7093?style=for-the-badge&logo=styled%20components&logoColor=white"/></a> <img src="https://img.shields.io/badge/React%20BootStrap-7952B3?style=for-the-badge&logo=BootStrap&logoColor=white"/></a> <img src="https://img.shields.io/badge/React%20Intersection%20Observer-68BC71?style=for-the-badge&logo=React&logoColor=white"/></a> <img src="https://img.shields.io/badge/.ENV-ECD53F?style=for-the-badge&logo=.ENV&logoColor=white"/></a>  <img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=Vercel&logoColor=white">
-<br/>
-
-#### 🎨 Front-End & Web Design
-<img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=Figma&logoColor=white"/></a>
-<br/>
-
-#### 🎚️Back-End
-<img src="https://img.shields.io/badge/Java-F80000?style=for-the-badge&logo=Java&logoColor=white"/></a> <img src="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=Spring&logoColor=white"/></a> <img src="https://img.shields.io/badge/Spring%20Boot-6DB33F?style=for-the-badge&logo=Spring%20Boot&logoColor=white"/></a> <img src="https://img.shields.io/badge/Spring%20Security-6DB33F?style=for-the-badge&logo=Spring%20Security&logoColor=white"/></a>
-<img src="https://img.shields.io/badge/JWT-FBBA00?style=for-the-badge&logo=JWT&logoColor=white"/></a> <img src="https://img.shields.io/badge/Auth0-EB5424?style=for-the-badge&logo=Auth0&logoColor=white"/></a> <img src="https://img.shields.io/badge/Stomp-66595C?style=for-the-badge&logo=Stomp&logoColor=white"/></a> <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=MySQL&logoColor=white"/></a>
-<img src="https://img.shields.io/badge/Amazon%20AWS-232F3E?style=for-the-badge&logo=Amazon%20AWS&logoColor=white"/></a> <img src="https://img.shields.io/badge/Amazon%20EC2-FF9900?style=for-the-badge&logo=Amazon%20EC2&logoColor=white"/></a> <img src="https://img.shields.io/badge/Amazon%20S3-569A31?style=for-the-badge&logo=Amazon%20S3&logoColor=white"/></a> <img src="https://img.shields.io/badge/Amazon%20RDS-527FFF?style=for-the-badge&logo=Amazon%20RDS&logoColor=white"/></a> <img src="https://img.shields.io/badge/restful%20API-1287B1?style=for-the-badge&logo=restful%20API&logoColor=white"/></a>
-<br/>
-
-### 📝 기술스택 및 라이브러리 사용 이유
-<!-- ![]() -->
-<details>
-<summary>WireFra</summary>
-<div markdown="1">
-
-![](0)
-</div>
-</details>
-<details>
-<summary>Wirra</summary>
-<div markdown="1">
-
-![](0)
-</div>
-</details>
-<details>
-<summary>Wireame</summary>
-<div markdown="1">
-
-![](0)
-</div>
-</details>
-<details>
-<summary>WireFre</summary>
-<div markdown="1">
-
-![](0)
-</div>
-</details>
-<details>
-<summary>Wireame</summary>
-<div markdown="1">
-
-![](0)
-</div>
-</details>
-<details>
-<summary>WireFrame</summary>
-<div markdown="1">
-
-![](0)
-</div>
-</details>
-<br/>
 
 
 #### ⚙️ Front-End
@@ -143,13 +62,6 @@
 <br/>
 - Solve : 댓글을 통해서 이용자간에 소통할 경우, 개인의 신상과 관련된 정보들이 유출될 수 있다는 점이 우려되었음. 지역을 기반으로 일이 성사되기 때문에, 플랫폼 내에서 유저의 개인정보들이 악용될 수 없도록 보안을 위한 다른 방법을 적용해야 한다고 판단했고, 게시자와 지원자 상호간에 소통할 수 있는 별도의 공간을 마련해 줄 수 있는 채팅기능을 웹소켓을 통해 구현하기로 함. 클라이언트와 서버간의 통신 효율을 높여줄 수 있는 stomp를 이용한 채팅 기능 구현하고, 유저별 채팅 목록을 보여줌.
 
-#### 🚀 03) 트러블슈팅 3
-- Case :
-- Solve :
-
-#### 🚀 04) 트러블슈팅 4
-- Case :
-- Solve :
 
 ## 🗓️ 프로젝트 기간
 <!-- ![]() -->
